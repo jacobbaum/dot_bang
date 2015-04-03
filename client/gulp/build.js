@@ -79,8 +79,9 @@ module.exports = function(options) {
       .pipe(gulp.dest(options.dist + '/'));
   });
 
+  // added force option - allows gulp to clean the 'public' folder
   gulp.task('clean', function (done) {
-    $.del([options.dist + '/', options.tmp + '/'], done);
+    $.del([options.dist + '/', options.tmp + '/'], { force: true }, done);
   });
 
   gulp.task('build', ['html', 'fonts', 'other']);

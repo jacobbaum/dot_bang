@@ -17,7 +17,7 @@
 
 var httpProxy = require('http-proxy');
 var chalk = require('chalk');
-// Added - Taken from Dr Mike'sexample
+// Added - Taken from Dr Mike's example
 var dateformat = require('dateformat');
 
 // Added
