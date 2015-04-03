@@ -1,0 +1,89 @@
+Angular Layout
+
+Directive - single DOM element
+Controller - group of DOM elements
+Service - tasks common to several areas
+
+module - Sequencer
+  new Tone
+  connections - routing svc?
+
+ctrl - samples
+ctrl - notation
+
+transport
+  ctrl - $scope.bpm, .meter, .start, .stop, .pause
+  svc  - new Tone.Transport
+
+
+controls
+  (for what?) 
+  global
+    -gain
+
+
+    .state('about', {
+        url: '/about',
+        views: {
+            '': { templateUrl: 'partial-about.html' },
+            'columnOne@about': { template: 'Look I am a column!' },
+            'columnTwo@about': { 
+                templateUrl: 'table-data.html',
+                controller: 'scotchController'
+            }
+        }
+        
+    });
+
+_.each(posts, function(post) {
+    _.each(post.comments, function(comment){
+        console.log(comment.body);
+    });
+});
+
+
+ //trigger the start of a part on the 16th measure
+ Tone.Transport.setTimeline(function(time){
+    part.start(time);
+ }, "16m");
+
+ //triggers a callback every 8th note with the exact time of the event
+
+ Tone.Transport.setInterval(function(time){
+    envelope.triggerAttack(time);
+ }, "8n");
+
+
+// chain(nodes)
+// connect a node to an effect, panVol and then to the master output
+node.chain(effect, panVol, Tone.Master);
+
+
+function Ctrl($scope) {
+  $scope.message = "Waiting 2000ms for update";
+    
+    setTimeout(function () {
+        $scope.$apply(function () {
+            $scope.message = "Timeout called!";
+        });
+    }, 2000);
+}
+
+
+// function mySandwich(param1, param2, callback) {
+    //   alert('Started eating my sandwich.\n\nIt has: ' + param1 + ', ' + param2);
+    //   callback();
+    // }
+
+    // mySandwich('ham', 'cheese', function() {
+    //   alert('Finished eating my sandwich.');
+    // });
+
+    $scope.name = "";
+
+    $scope.$watch("name", function(newValue, oldValue) {
+    if (newValue.length > 0) {
+      $scope.greeting = "Greetings " + newValue;
+    }
+  });
+

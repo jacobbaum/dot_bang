@@ -1,0 +1,25 @@
+<h3>Notation</h3>
+
+<div ng-repeat="channel in notation.channels track by $index" ng-init="chanIndex = $index" layout="column" layout-margin>
+  <div class="fixed-height" layout="row" layout-align="space-around center">
+    <div ng-repeat="note in channel.notes track by $index" ng-init="noteIndex = $index" class="note" ng-class="{'beat-boundary': (!$last && beatBoundary(noteIndex))}" flex>
+      <md-input-container>
+       <input type="button"  value="{{ note.value }}" ng-model="note" ng-click="cycleNotes(note, chanIndex)" ng-class="{'note-on': noteOn(note, noteIndex)}" class="animated fadeIn">
+      </md-input-container>
+    </div>
+  </div>
+</div>
+
+<md-button ng-click="clearNotes()">Clear Notes</md-button>
+
+
+
+
+
+
+<!-- <md-grid-list md-cols="4" md-row-height="200px" ...>
+  <md-grid-tile></md-grid-tile>
+</md-grid-list> -->
+
+
+
