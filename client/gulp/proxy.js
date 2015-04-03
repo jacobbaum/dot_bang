@@ -17,11 +17,19 @@
 
 var httpProxy = require('http-proxy');
 var chalk = require('chalk');
+// Added - Taken from Dr Mike'sexample
+var dateformat = require('dateformat');
+
+// Added
+var enableProxy  = true;
 
 /*
  * Location of your backend server
  */
-var proxyTarget = 'http://server/context/';
+
+// Added
+var proxyTarget  = 'http://localhost:3000/';
+var proxyContext = new RegExp('/api/');
 
 var proxy = httpProxy.createProxyServer({
   target: proxyTarget
@@ -40,6 +48,18 @@ proxy.on('error', function(error, req, res) {
  * handle backend request and proxy them to your backend.
  */
 function proxyMiddleware(req, res, next) {
+  // check if url is a candidate for proxying
+  if (proxyContext.test(req.url)) {
+    var time = '['+chalk.grey(dateformat(new Date(), 'HH:MM:ss'))+']';
+    var prefix = chalk.magenta('http-proxy:');
+    var requestUrl = chalk.green(req.method + ' ' + req.url);
+    console.log(time, prefix, requestUrl);
+    proxy.web(req, res);
+  }
+  else {
+    next();
+  }
+
   /*
    * This test is the switch of each request to determine if the request is
    * for a static file to be handled by BrowserSync or a backend request to proxy.
@@ -48,11 +68,11 @@ function proxyMiddleware(req, res, next) {
    * for your needs. If you can, you could also check on a context in the url which
    * may be more reliable but can't be generic.
    */
-  if (/\.(html|css|js|png|jpg|jpeg|gif|ico|xml|rss|txt|eot|svg|ttf|woff|woff2|cur)(\?((r|v|rel|rev)=[\-\.\w]*)?)?$/.test(req.url)) {
-    next();
-  } else {
-    proxy.web(req, res);
-  }
+  // if (/\.(html|css|js|png|jpg|jpeg|gif|ico|xml|rss|txt|eot|svg|ttf|woff|woff2|cur)(\?((r|v|rel|rev)=[\-\.\w]*)?)?$/.test(req.url)) {
+  //   next();
+  // } else {
+  //   proxy.web(req, res);
+  // }
 }
 
 /*
@@ -61,7 +81,13 @@ function proxyMiddleware(req, res, next) {
  * The first line activate if and the second one ignored it
  */
 
-//module.exports = [proxyMiddleware];
+// module.exports = [proxyMiddleware];
+
+// module.exports = function() {
+//   return [];
+
+// Added
 module.exports = function() {
-  return [];
+  console.log('enableProxy: ' + enableProxy);
+  return enableProxy ? [proxyMiddleware] : [];  
 };
