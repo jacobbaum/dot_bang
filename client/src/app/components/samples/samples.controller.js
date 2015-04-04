@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('dotBang')
-  .controller('SamplesCtrl', function ($scope, SampleService) {
+  .controller('SamplesCtrl', ['$scope', 'SampleService', function ($scope, SampleService) {
 
     $scope.drumNames = SampleService.drumNames;
     
-});
+}]);

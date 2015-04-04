@@ -1,16 +1,24 @@
 'use strict';
 
 angular.module('dotBang')
-  .controller('NotationCtrl', function ($scope, $timeout, $window, NotationService) {
-
-    var Tone = $window.Tone;
-    var _ = $window._;
-
+  .controller('NotationCtrl', ['$scope', 'NotationService', function ($scope, NotationService) {
 
     // when notation is loaded
+
+    function getNotations() {
+      NotationService.getNotations()
+      .success(function(data) {
+        $scope.notations = data;
+        console.log(data);
+      })
+      .error(function() {
+        alert('GET: error');
+      });
+    }
+
+    getNotations();
+
     $scope.notation = NotationService.notation;
-
-
 
     $scope.clearNotes = function(){
       _.forEach($scope.notation.channels, function(channel) {
@@ -71,4 +79,4 @@ angular.module('dotBang')
       stepNumber = stepNumber % (8 * Tone.Transport.timeSignature);
     }, '16n');
 
-  });
+  }]);

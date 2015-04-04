@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('dotBang')
-  .controller('MainCtrl', function ($scope) {
+  .controller('MainCtrl', ['$scope', function ($scope) {
     $scope.awesomeThings = [
       {
         'title': 'AngularJS',
@@ -55,4 +55,4 @@ angular.module('dotBang')
     angular.forEach($scope.awesomeThings, function(awesomeThing) {
       awesomeThing.rank = Math.random();
     });
-  });
+  }]);

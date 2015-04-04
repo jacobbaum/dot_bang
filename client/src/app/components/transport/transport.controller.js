@@ -1,9 +1,7 @@
 'use strict';
 
 angular.module('dotBang')
-  .controller('TransportCtrl', function ($scope, $window, NotationService) {
-
-    var Tone = $window.Tone;
+  .controller('TransportCtrl', ['$scope', 'NotationService', function ($scope, NotationService) {
 
     Tone.Transport.loop = true;
     Tone.Transport.loopStart = '0:0:0';
@@ -28,7 +26,7 @@ angular.module('dotBang')
     }
 
     function reInitLoopEnd(){
-      Tone.Transport.loopEnd = '2:0:0'
+      Tone.Transport.loopEnd = '2:0:0';
     }
 
 
@@ -77,4 +75,4 @@ angular.module('dotBang')
       }
     };
 
-});
+}]);

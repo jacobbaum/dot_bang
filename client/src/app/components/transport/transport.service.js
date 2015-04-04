@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('dotBang')
-  .service('TransportService', function($window) {
+  .service('TransportService', function() {
 
     // var Tone = $window.Tone;
 
@@ -15,11 +15,6 @@ angular.module('dotBang')
 // time signature update needs to:
 // update notation view.
 // update cycles for triggering notes and updating css classes
-
-
-
-
-
 
 
   });

@@ -2,4 +2,6 @@ node_modules/
 bower_components/
 .sass-cache/
 .tmp/
+.bower-cache
+.bower-registry
 src/app/audio/

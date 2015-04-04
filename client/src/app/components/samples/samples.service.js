@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('dotBang')
-  .service('SampleService', function(){
+  .service('SampleService', ['$http', function($http){
 
     var kitData = {'name': 'rock', 'samples': [
       {'name': 'kick', 'url': '/app/audio/rock-kit/rock-kick.wav'},
@@ -39,4 +39,4 @@ angular.module('dotBang')
     
     this.currentKit = kitForTone;
 
-  });
+  }]);

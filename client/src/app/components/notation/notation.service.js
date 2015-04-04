@@ -1,11 +1,19 @@
 'use strict';
 
 angular.module('dotBang')
-  .service('NotationService', function() {
+  .service('NotationService', ['$http', function($http) {
 
-    var NotationService = this;
+    var noteServ = this;
 
-    NotationService.notation = 
+    noteServ.getNotations = function() {
+      return $http.get('/api/notations');
+    };
+
+    noteServ.getNotation = function(notation) {
+      return $http.get('/api/notations/' + notation.id);
+    };
+
+    noteServ.notation = 
       {'name': 'demo', 'timeSignature': '4', 'channels': [  //save time signature here?  bar count?
         {'number':'01', 'notes': [
           {'time':'0:0:0', 'value':'.'},{'time':'0:0:1', 'value':' '},
@@ -156,18 +164,18 @@ angular.module('dotBang')
 
       // Am i using this? Should it be used for drumCount in sampler loop?  
       // will there be a need to check that the number of voices matches the number of channels?
-      NotationService.channelCount = NotationService.notation.channels.length;
+      noteServ.channelCount = noteServ.notation.channels.length;
 
       // sets time signature on load - TODO move to function that gets called whenever notation loaded.
       // $scope.timeSignature in transport controller might need to be manually updated.
-      Tone.Transport.timeSignature = parseInt(NotationService.notation.timeSignature, 10);
+      Tone.Transport.timeSignature = parseInt(noteServ.notation.timeSignature, 10);
 
 
       // time signature changes can come from two places: notation JSON and transport controller
       // transport controller is passed in .... notation already here .... 
 
       // also set on load
-      var currentTimeSignature = parseInt(NotationService.notation.timeSignature, 10);
+      var currentTimeSignature = parseInt(noteServ.notation.timeSignature, 10);
 
       function correctTimeSignature() {
        return Tone.Transport.timeSignature === currentTimeSignature;
@@ -183,21 +191,21 @@ angular.module('dotBang')
       }
 
       function removeBeats(num){
-        var length = NotationService.notation.channels[0].notes.length;
-        var middle = NotationService.notation.channels[0].notes.length / 2; 
+        var length = noteServ.notation.channels[0].notes.length;
+        var middle = noteServ.notation.channels[0].notes.length / 2; 
         var numToRemove = 4 * num;
         var endIndex = length - numToRemove;
         var middleIndex = middle - numToRemove;
 
-        _.forEach(NotationService.notation.channels, function(channel){
+        _.forEach(noteServ.notation.channels, function(channel){
           channel.notes.splice(endIndex, numToRemove);
           channel.notes.splice(middleIndex, numToRemove);
         });
       }
 
       function addBeats(){
-        var length = NotationService.notation.channels[0].notes.length;
-        var middle = NotationService.notation.channels[0].notes.length / 2; 
+        var length = noteServ.notation.channels[0].notes.length;
+        var middle = noteServ.notation.channels[0].notes.length / 2; 
         // var numToAdd = 4 * num;
         // var endIndex = length;
         // var middleIndex = middle;
@@ -209,17 +217,17 @@ angular.module('dotBang')
         // console.log(JSON.stringify(addToMiddle));        
         // console.log(addToEnd);        
 
-        _.forEach(NotationService.notation.channels, function(channel){
+        _.forEach(noteServ.notation.channels, function(channel){
           var chunkedNotes = _.chunk(channel.notes, middle);
-          var firstBar = chunkedNotes[0].concat(addToMiddle)
-          var secondBar = chunkedNotes[1].concat(addToEnd)
+          var firstBar = chunkedNotes[0].concat(addToMiddle);
+          var secondBar = chunkedNotes[1].concat(addToEnd);
           channel.notes = firstBar.concat(secondBar);
           // console.log(channel.notes);
           // channel.notes.splice(endIndex, 0, addToEnd);
           // channel.notes.splice(middleIndex, 0, addToMiddle);
         });
 
-        console.log(NotationService.notation.channels[0].notes);
+        console.log(noteServ.notation.channels[0].notes);
       }
 
       // adding notes...
@@ -270,4 +278,4 @@ angular.module('dotBang')
       // negative change - remove measures
       // positive change - add measures
 
-  });
+  }]);

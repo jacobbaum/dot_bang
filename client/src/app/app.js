@@ -9,7 +9,10 @@ angular.module('dotBang',
     'ui.router',
     'ngMaterial',
   ])
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(['$httpProvider', '$stateProvider', '$urlRouterProvider', function ($httpProvider, $stateProvider, $urlRouterProvider) {
+
+    $httpProvider.defaults.withCredentials = true;
+
     $stateProvider
     .state( 'home', {
       url: '/',
@@ -46,7 +49,7 @@ angular.module('dotBang',
       templateUrl: 'app/about/about.html'
     });
   $urlRouterProvider.otherwise('/');              
-});
+}]);
 
 
   // Nested states?
