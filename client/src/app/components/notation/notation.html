@@ -12,6 +12,19 @@
 
 <md-button ng-click="clearNotes()">Clear Notes</md-button>
 
+<md-select ng-model="notation" placeholder="Load a Beat" ng-change="getNotation(notation)">
+  <md-option ng-value="notation" ng-repeat="notation in allNotations">
+    {{ notation.name }} - bpm: {{ notation.bpm}}, meter: {{notation['time_signature']}}/4
+  </md-option>
+</md-select>
+
+<md-button ng-click="saveAs()">Save As</md-button>
+
+<md-button ng-click="save()">Save</md-button>
+
+{{ notation.name }}
+
+
 
 
 
@@ -21,5 +34,16 @@
   <md-grid-tile></md-grid-tile>
 </md-grid-list> -->
 
-
+<!-- 
+option groups example
+    <md-select ng-model="favoriteTopping" placeholder="Favorite Topping">
+      <md-optgroup label="Meats">
+        <md-option ng-value="topping.name" ng-repeat="topping in toppings | filter: {category: 'meat' }">{{topping.name}}</md-option>
+      </md-optgroup>
+      <md-optgroup label="Veggies">
+        <md-option ng-value="topping.name" ng-repeat="topping in toppings | filter: {category: 'veg' }">{{topping.name}}</md-option>
+      </md-optgroup>
+    </md-select>
+    <p class="md-caption">{{ favoriteTopping ? 'Your favorite topping is ' + favoriteTopping : 'Please select a topping'}}</p>
+ -->
 

@@ -47,13 +47,12 @@ proxy.on('error', function(error, req, res) {
  * handle backend request and proxy them to your backend.
  */
 function proxyMiddleware(req, res, next) {
-  console.log(req.url)
   // check if url is a candidate for proxying
   if (proxyContext.test(req.url)) {
     var time = '['+chalk.grey(dateformat(new Date(), 'HH:MM:ss'))+']';
     var prefix = chalk.magenta('http-proxy:');
     var requestUrl = chalk.green(req.method + ' ' + req.url);
-    console.log(time + prefix + requestUrl);
+    console.log(time, prefix, requestUrl);
     proxy.web(req, res);
   }
   else {
@@ -95,8 +94,6 @@ function proxyMiddleware(req, res, next) {
 
 module.exports = function() {
   console.log('enableProxy: ' + enableProxy);
-  // console.log('target: ' + proxyTarget);
-  // console.log('context: ' + proxyContext);
-  // return enableProxy ? [proxyMiddleware] : [];
-  return [proxyMiddleware];
+  return enableProxy ? [proxyMiddleware] : [];
+  // return [proxyMiddleware];
 };

@@ -1,24 +1,126 @@
 'use strict';
 
 angular.module('dotBang')
-  .controller('NotationCtrl', ['$scope', 'NotationService', function ($scope, NotationService) {
+  .controller('NotationCtrl', ['$scope', '$rootScope', '$timeout', 'NotationService', '$mdDialog', function($scope, $rootScope, $timeout, NotationService, $mdDialog) {
 
-    // when notation is loaded
-
-    function getNotations() {
-      NotationService.getNotations()
+    function getNotations(){
+      return NotationService.getNotations()
       .success(function(data) {
-        $scope.notations = data;
-        console.log(data);
+        $scope.allNotations = data;
+        console.log($scope.allNotations); // This logs an array of objects
       })
       .error(function() {
         alert('GET: error');
       });
     }
 
+    // $scope.allNotations = [];
+
+    // console.log($scope.allNotations); 
+
     getNotations();
 
-    $scope.notation = NotationService.notation;
+    $timeout(function(){
+      console.log($scope.allNotations);
+    }, 2000);
+
+    console.log($scope.allNotations); // This logs undefined
+
+
+    // tests to see if either 'number' undefined
+    // $scope.number = 'one';
+    // function anotherNumber(){
+    //   $scope.anotherNumber = 'two';
+    // }
+    // anotherNumber();
+    // console.log($scope.number);
+    // console.log($scope.anotherNumber);
+
+
+
+    // console.log(getNotations());
+
+    // console.log();
+
+    // load default notation
+    // var defaultNotation = 
+    //   _.filter($scope.allNotations, function(notation){
+    //     return notation.name === 'Demo';
+    //   });
+
+    // console.log(defaultNotation);
+
+    $scope.getNotation = function(notation){
+      console.log(notation);
+      NotationService.getNotation(notation);
+
+      // .success(function(data){
+      //   $scope.notation = data;
+      //   console.log(JSON.stringify($scope.notation));
+      // })
+      // .error(function(){
+      //   console.log('ha ha ha.');
+      // })
+      // .then(function(){
+      //   console.log($scope.notation.name);
+      // });
+    };
+
+    $rootScope.$on('notation loaded', function () {
+      $scope.notation = NotationService.notation;
+    });
+
+
+    $scope.saveAs = function($event){
+      $mdDialog.show({
+        controller: 'NotationCtrl',
+        templateUrl: '/app/components/notation/dialog.notation.html',
+        targetEvent: $event,
+        locals: $scope.notation.name,
+        // clickOutsideToClose: true  
+      })
+      .then(function(name) {
+        $scope.notation.name = name;
+        NotationService.addNotation($scope.notation);
+      }, function() {
+      // $scope.alert = 'You cancelled the dialog.';
+      });
+    }
+
+    $scope.cancelSave = function() {
+      $mdDialog.cancel();
+    };
+
+    $scope.confirmSave = function(name) {
+      // console.log($scope.notation.name);
+      $mdDialog.hide($scope.notation.name);
+    };
+
+    $scope.save = function(){
+      NotationService.updateNotation($scope.notation);
+    }
+
+    $scope.addNotation = function(){
+      console.log($scope.newNotation);
+    }
+
+    // $scope.addGroup = function() {
+    //   var newGroup = { name: $scope.newGroupName };
+    //   GroupService.addGroup(newGroup)
+    //   .success(function() {
+    //     $scope.newGroupName = null;
+    //     getGroups();
+    //   })
+    //   .error(function(data, status) {
+    //     console.log(data);
+    //     alert('SAVE ERROR: ' + status + ' : ' + JSON.stringify(data));
+    //   });
+    // };
+
+    // $scope.notation = 
+    //   NotationService.getNotation(defaultNotation[0]);  
+
+    // $scope.notation = NotationService.notation;
 
     $scope.clearNotes = function(){
       _.forEach($scope.notation.channels, function(channel) {

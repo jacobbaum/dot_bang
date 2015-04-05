@@ -5,11 +5,10 @@ angular.module('dotBang',
     'ngCookies', 
     'ngTouch', 
     'ngSanitize', 
-    'ngResource', 
     'ui.router',
     'ngMaterial',
   ])
-  .config(['$httpProvider', '$stateProvider', '$urlRouterProvider', function ($httpProvider, $stateProvider, $urlRouterProvider) {
+  .config(['$httpProvider', '$stateProvider', '$urlRouterProvider', function($httpProvider, $stateProvider, $urlRouterProvider) {
 
     $httpProvider.defaults.withCredentials = true;
 

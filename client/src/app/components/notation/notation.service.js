@@ -1,181 +1,232 @@
 'use strict';
 
 angular.module('dotBang')
-  .service('NotationService', ['$http', function($http) {
+  .service('NotationService', ['$http', '$rootScope', function($http, $rootScope) {
 
     var noteServ = this;
+
+    // set noteServ.notation here, so that notation info can be seen across controllers
+    // set default notation with following logic... if signed in user, last user beat.
+    // if not signed in user, sample from presets.
+
+    // add preset field to notation.  set permissions... if preset, read only.
+    // if not preset, all crud.
+    // if preset,  save as (create).
+    // if not, save(update) or save as.
 
     noteServ.getNotations = function() {
       return $http.get('/api/notations');
     };
 
     noteServ.getNotation = function(notation) {
-      return $http.get('/api/notations/' + notation.id);
+      $http.get('/api/notations/' + notation.id)
+      .success(function(data){
+        noteServ.notation = data;
+      })
+      .error(function() {
+        alert('GET: error');
+      })
+      .then(function(){
+        $rootScope.$emit('notation loaded');
+      });
     };
 
-    noteServ.notation = 
-      {'name': 'demo', 'timeSignature': '4', 'channels': [  //save time signature here?  bar count?
-        {'number':'01', 'notes': [
-          {'time':'0:0:0', 'value':'.'},{'time':'0:0:1', 'value':' '},
-          {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
-          {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
-          {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':' '},
-          {'time':'0:2:0', 'value':'.'},{'time':'0:2:1', 'value':' '},
-          {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
-          {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
-          {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
-          {'time':'1:0:0', 'value':'.'},{'time':'1:0:1', 'value':' '},
-          {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
-          {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':' '},
-          {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
-          {'time':'1:2:0', 'value':'.'},{'time':'1:2:1', 'value':' '},
-          {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
-          {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
-          {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
-        },
-        {'number':'02', 'notes': [
-          {'time':'0:0:0', 'value':' '},{'time':'0:0:1', 'value':'.'},
-          {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
-          {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':'.'},
-          {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':' '},
-          {'time':'0:2:0', 'value':' '},{'time':'0:2:1', 'value':' '},
-          {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
-          {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
-          {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
-          {'time':'1:0:0', 'value':' '},{'time':'1:0:1', 'value':' '},
-          {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
-          {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':' '},
-          {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
-          {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
-          {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
-          {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
-          {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
-        },
-        {'number':'03', 'notes': [
-          {'time':'0:0:0', 'value':' '},{'time':'0:0:1', 'value':' '},
-          {'time':'0:0:2', 'value':'.'},{'time':'0:0:3', 'value':' '},
-          {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
-          {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':' '},
-          {'time':'0:2:0', 'value':' '},{'time':'0:2:1', 'value':' '},
-          {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
-          {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
-          {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
-          {'time':'1:0:0', 'value':' '},{'time':'1:0:1', 'value':' '},
-          {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
-          {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':' '},
-          {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
-          {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
-          {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
-          {'time':'1:3:0', 'value':'.'},{'time':'1:3:1', 'value':' '},
-          {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
-        },
-        {'number':'04', 'notes': [
-          {'time':'0:0:0', 'value':' '},{'time':'0:0:1', 'value':' '},
-          {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
-          {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
-          {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':'.'},
-          {'time':'0:2:0', 'value':' '},{'time':'0:2:1', 'value':' '},
-          {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
-          {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
-          {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
-          {'time':'1:0:0', 'value':' '},{'time':'1:0:1', 'value':' '},
-          {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
-          {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':' '},
-          {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
-          {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
-          {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':'.'},
-          {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
-          {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
-        },
-        {'number':'05', 'notes': [
-          {'time':'0:0:0', 'value':' '},{'time':'0:0:1', 'value':' '},
-          {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
-          {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
-          {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':' '},
-          {'time':'0:2:0', 'value':' '},{'time':'0:2:1', 'value':' '},
-          {'time':'0:2:2', 'value':'.'},{'time':'0:2:3', 'value':'.'},
-          {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
-          {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
-          {'time':'1:0:0', 'value':' '},{'time':'1:0:1', 'value':' '},
-          {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
-          {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':' '},
-          {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
-          {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
-          {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
-          {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
-          {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
-        },
-        {'number':'06', 'notes': [
-          {'time':'0:0:0', 'value':' '},{'time':'0:0:1', 'value':' '},
-          {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
-          {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
-          {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':'.'},
-          {'time':'0:2:0', 'value':' '},{'time':'0:2:1', 'value':' '},
-          {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
-          {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
-          {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
-          {'time':'1:0:0', 'value':' '},{'time':'1:0:1', 'value':' '},
-          {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
-          {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':'.'},
-          {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
-          {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
-          {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
-          {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
-          {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
-        },
-        {'number':'07', 'notes': [
-          {'time':'0:0:0', 'value':' '},{'time':'0:0:1', 'value':' '},
-          {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
-          {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
-          {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':' '},
-          {'time':'0:2:0', 'value':'.'},{'time':'0:2:1', 'value':' '},
-          {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
-          {'time':'0:3:0', 'value':'.'},{'time':'0:3:1', 'value':' '},
-          {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
-          {'time':'1:0:0', 'value':'.'},{'time':'1:0:1', 'value':' '},
-          {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
-          {'time':'1:1:0', 'value':'.'},{'time':'1:1:1', 'value':' '},
-          {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
-          {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
-          {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
-          {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
-          {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
-        },
-        {'number':'08', 'notes': [
-          {'time':'0:0:0', 'value':'.'},{'time':'0:0:1', 'value':' '},
-          {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
-          {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
-          {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':' '},
-          {'time':'0:2:0', 'value':' '},{'time':'0:2:1', 'value':' '},
-          {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
-          {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
-          {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
-          {'time':'1:0:0', 'value':'.'},{'time':'1:0:1', 'value':' '},
-          {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
-          {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':' '},
-          {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
-          {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
-          {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
-          {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
-          {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
-        }
-        ]
-      };
+    noteServ.addNotation = function(notation){
+      // console.log({ notation: notation });
+      $http.post('/api/notations/', { notation: notation } )
+      .success(function(data){
+        noteServ.notation = data;
+      })
+      .error(function() {
+        alert('GET: error');
+      })
+      .then(function(){
+        $rootScope.$emit('notation loaded');
+      });
+    };
+
+    noteServ.updateNotation = function(notation){
+      // console.log({ notation: notation });
+      $http.put('/api/notations/' + notation.id, { notation: notation } )
+      .success(function(data){
+        console.log('success');
+        // noteServ.notation = data;
+      })
+      .error(function() {
+        alert('PUT: error');
+      })
+      // .then(function(){
+      //   $rootScope.$emit('notation loaded');
+      // });
+    };
+
+
+
+
+
+    // noteServ.notation = 
+    //   {'name': 'demo', 'timeSignature': '4', 'channels': [  //save time signature here?  bar count?
+    //     {'number':'01', 'notes': [
+    //       {'time':'0:0:0', 'value':'.'},{'time':'0:0:1', 'value':' '},
+    //       {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
+    //       {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
+    //       {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':' '},
+    //       {'time':'0:2:0', 'value':'.'},{'time':'0:2:1', 'value':' '},
+    //       {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
+    //       {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
+    //       {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
+    //       {'time':'1:0:0', 'value':'.'},{'time':'1:0:1', 'value':' '},
+    //       {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
+    //       {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':' '},
+    //       {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
+    //       {'time':'1:2:0', 'value':'.'},{'time':'1:2:1', 'value':' '},
+    //       {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
+    //       {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
+    //       {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
+    //     },
+    //     {'number':'02', 'notes': [
+    //       {'time':'0:0:0', 'value':' '},{'time':'0:0:1', 'value':'.'},
+    //       {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
+    //       {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':'.'},
+    //       {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':' '},
+    //       {'time':'0:2:0', 'value':' '},{'time':'0:2:1', 'value':' '},
+    //       {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
+    //       {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
+    //       {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
+    //       {'time':'1:0:0', 'value':' '},{'time':'1:0:1', 'value':' '},
+    //       {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
+    //       {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':' '},
+    //       {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
+    //       {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
+    //       {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
+    //       {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
+    //       {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
+    //     },
+    //     {'number':'03', 'notes': [
+    //       {'time':'0:0:0', 'value':' '},{'time':'0:0:1', 'value':' '},
+    //       {'time':'0:0:2', 'value':'.'},{'time':'0:0:3', 'value':' '},
+    //       {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
+    //       {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':' '},
+    //       {'time':'0:2:0', 'value':' '},{'time':'0:2:1', 'value':' '},
+    //       {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
+    //       {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
+    //       {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
+    //       {'time':'1:0:0', 'value':' '},{'time':'1:0:1', 'value':' '},
+    //       {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
+    //       {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':' '},
+    //       {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
+    //       {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
+    //       {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
+    //       {'time':'1:3:0', 'value':'.'},{'time':'1:3:1', 'value':' '},
+    //       {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
+    //     },
+    //     {'number':'04', 'notes': [
+    //       {'time':'0:0:0', 'value':' '},{'time':'0:0:1', 'value':' '},
+    //       {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
+    //       {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
+    //       {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':'.'},
+    //       {'time':'0:2:0', 'value':' '},{'time':'0:2:1', 'value':' '},
+    //       {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
+    //       {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
+    //       {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
+    //       {'time':'1:0:0', 'value':' '},{'time':'1:0:1', 'value':' '},
+    //       {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
+    //       {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':' '},
+    //       {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
+    //       {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
+    //       {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':'.'},
+    //       {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
+    //       {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
+    //     },
+    //     {'number':'05', 'notes': [
+    //       {'time':'0:0:0', 'value':' '},{'time':'0:0:1', 'value':' '},
+    //       {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
+    //       {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
+    //       {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':' '},
+    //       {'time':'0:2:0', 'value':' '},{'time':'0:2:1', 'value':' '},
+    //       {'time':'0:2:2', 'value':'.'},{'time':'0:2:3', 'value':'.'},
+    //       {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
+    //       {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
+    //       {'time':'1:0:0', 'value':' '},{'time':'1:0:1', 'value':' '},
+    //       {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
+    //       {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':' '},
+    //       {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
+    //       {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
+    //       {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
+    //       {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
+    //       {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
+    //     },
+    //     {'number':'06', 'notes': [
+    //       {'time':'0:0:0', 'value':' '},{'time':'0:0:1', 'value':' '},
+    //       {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
+    //       {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
+    //       {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':'.'},
+    //       {'time':'0:2:0', 'value':' '},{'time':'0:2:1', 'value':' '},
+    //       {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
+    //       {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
+    //       {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
+    //       {'time':'1:0:0', 'value':' '},{'time':'1:0:1', 'value':' '},
+    //       {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
+    //       {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':'.'},
+    //       {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
+    //       {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
+    //       {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
+    //       {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
+    //       {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
+    //     },
+    //     {'number':'07', 'notes': [
+    //       {'time':'0:0:0', 'value':' '},{'time':'0:0:1', 'value':' '},
+    //       {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
+    //       {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
+    //       {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':' '},
+    //       {'time':'0:2:0', 'value':'.'},{'time':'0:2:1', 'value':' '},
+    //       {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
+    //       {'time':'0:3:0', 'value':'.'},{'time':'0:3:1', 'value':' '},
+    //       {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
+    //       {'time':'1:0:0', 'value':'.'},{'time':'1:0:1', 'value':' '},
+    //       {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
+    //       {'time':'1:1:0', 'value':'.'},{'time':'1:1:1', 'value':' '},
+    //       {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
+    //       {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
+    //       {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
+    //       {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
+    //       {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
+    //     },
+    //     {'number':'08', 'notes': [
+    //       {'time':'0:0:0', 'value':'.'},{'time':'0:0:1', 'value':' '},
+    //       {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
+    //       {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
+    //       {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':' '},
+    //       {'time':'0:2:0', 'value':' '},{'time':'0:2:1', 'value':' '},
+    //       {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
+    //       {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
+    //       {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
+    //       {'time':'1:0:0', 'value':'.'},{'time':'1:0:1', 'value':' '},
+    //       {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
+    //       {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':' '},
+    //       {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
+    //       {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
+    //       {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
+    //       {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
+    //       {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
+    //     }
+    //     ]
+    //   };
 
       // Am i using this? Should it be used for drumCount in sampler loop?  
       // will there be a need to check that the number of voices matches the number of channels?
-      noteServ.channelCount = noteServ.notation.channels.length;
+  //    noteServ.channelCount = noteServ.notation.channels.length;
 
       // sets time signature on load - TODO move to function that gets called whenever notation loaded.
       // $scope.timeSignature in transport controller might need to be manually updated.
-      Tone.Transport.timeSignature = parseInt(noteServ.notation.timeSignature, 10);
+//      Tone.Transport.timeSignature = parseInt(noteServ.notation.timeSignature, 10);
 
 
       // time signature changes can come from two places: notation JSON and transport controller
       // transport controller is passed in .... notation already here .... 
 
       // also set on load
-      var currentTimeSignature = parseInt(noteServ.notation.timeSignature, 10);
+ //     var currentTimeSignature = parseInt(noteServ.notation.timeSignature, 10);
 
       function correctTimeSignature() {
        return Tone.Transport.timeSignature === currentTimeSignature;
@@ -252,7 +303,6 @@ angular.module('dotBang')
         return toAdd; 
       }
          
-
       var Note = function(bar, quarter, sixteenth, value) {
         this.time = bar + ':' + quarter + ':' + sixteenth;
         this.value = value;

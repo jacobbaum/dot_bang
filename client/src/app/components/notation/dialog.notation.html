@@ -1,0 +1,18 @@
+<md-dialog aria-label="Save Beat As">
+  <md-content class="sticky-container">
+    <md-input-container>
+      <label>Name</label>
+      <input ng-model="notation.name">
+    </md-input-container>
+    {{ notation.name }}
+  </md-content>
+  <div class="md-actions" layout="row">
+    <span flex></span>
+    <md-button ng-click="cancelSave()">
+     Cancel
+    </md-button>
+    <md-button ng-click="confirmSave()" class="md-primary">
+      Save
+    </md-button>
+  </div>
+</md-dialog>

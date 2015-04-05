@@ -1,9 +1,7 @@
 'use strict';
 
 angular.module('dotBang')
-  .controller('SequencerCtrl', function ($scope, $window, NotationService, SampleService) {
-
-    var Tone = $window.Tone;
+  .controller('SequencerCtrl', ['$scope', '$rootScope', 'NotationService', 'SampleService', function ($scope, $rootScope, NotationService, SampleService) {
 
     var dotSettings = { 'volume': -15 };
     var bangSettings =  { 'volume': -10 };
@@ -12,7 +10,16 @@ angular.module('dotBang')
     var drumNames = SampleService.drumNames;
     var currentKit = SampleService.currentKit;
 
-    var notation = NotationService.notation;
+    var notation = {};
+
+    $rootScope.$on('notation loaded', function () {
+      console.log('heard about notation')
+      notation = NotationService.notation;
+      console.log(JSON.stringify(notation));
+      // return notation;
+    });
+
+    // var notation = NotationService.notation;
 
     var stepNumber = 0;
 
@@ -64,4 +71,4 @@ angular.module('dotBang')
         //     "max": 4000
         //   }
         // }
-});
+}]);
