@@ -1,37 +1,55 @@
-<h3>Transport</h3>
+<!-- <h3>Transport</h3> -->
 
-<div layout="row" layout-margin>
-<md-button class="md-button transport-button" aria-label="Play" ng-click="play()">
-  <i class="fa fa-play fa-2x"></i>
-</md-button>
+<div id="transport" layout="row" layout-align="end start" layout-margin>
 
-<md-button class="md-button transport-button" aria-label="Pause" ng-click="pause()">
-  <i class="fa fa-pause fa-2x"></i>
-</md-button>
 
-<md-button class="md-button transport-button" aria-label="Stop" ng-click="back()">
-  <i class="fa fa-step-backward fa-2x"></i>
-</md-button>
 
+
+<div layout="column">
+<span>BPM:</span>
 <md-input-container>
-  <label>bpm</label>
   <input required type="number" step="any" name="bpm" ng-model="bpm" ng-change="setBpm()" min="1" max="300">
 </md-input-container>
+</div>
 
-<md-input-container>
-  <label>time signature</label>
+<!-- <md-input-container>
+  <label>Time Signature</label>
   <input required type="number" step="any" name="timeSignature" ng-model="timeSignature" ng-change="setTimeSignature()" min="1" max="11">
-</md-input-container>
+</md-input-container> -->
+<div layout="column">
+<span>Time Signature:</span>
+<md-select ng-model="timeSignature" placeholder="Time Signature" ng-change="setTimeSignature()">
+  <md-option ng-value="timeSign.value" ng-repeat="timeSign in timeSignatures">
+    {{ timeSign.display }}
+  </md-option>
+</md-select>
+</div>
 
+<div layout="column">
+  <span>Transport:</span>
+  <div id="counter">{{ position }}</div>
+</div>
 
-
-<div>bpm : {{ bpm }}</div>
+<!-- <div>bpm : {{ bpm }}</div>
 
 <div>time signature : {{ timeSignature }}/4</div>
 
-<div>bars:beats:16ths : {{ position }}</div>
+<div>Counter : <span class="monospace">{{ position }}</span></div> -->
 
-<div>{{ transportState }}</div>
+<!-- <div>{{ transportState }}</div> -->
+<div>
+<md-button class="md-button md-primary md-raised md-hue-1 transport-button" aria-label="Stop" ng-click="back()">
+  <i class="fa fa-step-backward fa-lg"></i>
+</md-button>
 
+<md-button class="md-button md-primary md-raised md-hue-1 transport-button" aria-label="Play" ng-click="play()">
+  <i class="fa fa-play fa-lg"></i>
+</md-button>
+
+<md-button class="md-button md-primary md-raised md-hue-1 transport-button" aria-label="Pause" ng-click="pause()">
+  <i class="fa fa-pause fa-lg"></i>
+</md-button>
+
+</div>
 </div>
 

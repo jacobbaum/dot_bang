@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  has_many :notations, dependent: :destroy
+  # has_many :notations, through: :scores
+
   before_save { self.email = email.downcase }
   before_create :create_remember_token
 
@@ -13,6 +16,8 @@ class User < ActiveRecord::Base
   has_secure_password
 
   validates :password, length: { minimum: 6, maximum: 20 }
+
+
 
   def self.new_remember_token
     SecureRandom.urlsafe_base64

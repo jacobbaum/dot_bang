@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('dotBang')
-  .controller('TransportCtrl', ['$scope', 'NotationService', function ($scope, NotationService) {
+  .controller('TransportCtrl', ['$scope', '$rootScope', 'NotationService', function ($scope, $rootScope, NotationService) {
 
     Tone.Transport.loop = true;
     Tone.Transport.loopStart = '0:0:0';
@@ -14,6 +14,22 @@ angular.module('dotBang')
     $scope.bpm = 120;
     $scope.position = Tone.Transport.position;
     $scope.timeSignature = Tone.Transport.timeSignature;
+
+    $rootScope.$on('notation loaded', function () {
+      $scope.bpm = NotationService.notation.bpm;
+      $scope.timeSignature = NotationService.notation['time_signature'];
+      Tone.Transport.timeSignature = $scope.timeSignature;
+      Tone.Transport.bpm.value = $scope.bpm;
+      Tone.Transport.loopEnd = '2:0:0';
+    });
+
+    $scope.timeSignatures = [
+      { 'display': '4/4', 'value': 4 },
+      { 'display': '3/4', 'value': 3 },
+      { 'display': '5/4', 'value': 5 },
+      { 'display': '6/4', 'value': 6 },
+      { 'display': '7/4', 'value': 7 }
+    ];
 
     $scope.setBpm = function(){
       Tone.Transport.bpm.value = $scope.bpm;

@@ -1,7 +1,15 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Roboto:400,700,700italic,400italic);
+// @import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Roboto:400,700,700italic,400italic);
 
-html {
-  font-family: 'Roboto Slab', serif;
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,700|Lora:400,700|Source+Code+Pro:300,400);
+
+$font-mono: 'Source Code Pro', 'Lucida Console', monospace;
+$font-serif: 'Lora', serif;
+$font-sans: 'Source Sans Pro', sans-serif;
+
+
+
+body {
+  font-family: $font-sans;
 }
 
 @mixin animation($name, $time) {
@@ -17,17 +25,54 @@ html {
   -o-transition:     $property $easing $time;
   transition:        $property $easing $time;
 }
+.md-button {
+  background: transparent;
+  text-transform: none;
+  font-size: 1em;
+}
+
+md-toolbar {
+  font-family: $font-serif;
+  padding-right: .5em;
+
+  h1 {
+    font-size: 3em;
+    margin: 0 .5em .1em .5em;
+    line-height: 1em;
+  }
+
+  .md-button {
+    // color: black;
+    font-family: $font-sans;
+    font-size: .75em;
+    // margin-right: .5em;
+  }
+}
 
 .note {
-  font-size: 2em;
+  font-size: 2.5em;
+  line-height: 1em;
   text-align: center;
+  font-family: $font-serif;
 
-  md-input-container {
-    padding-bottom: 4px;
-    // background-color: #5aadbb;
-  
+    md-input-container{
+      padding: 4px 2px; 
+
+      .md-input {
+        line-height: 1em;
+        border-radius: 2px;
+      }
+    }
+    .md-button {
+      background-color: white;
+      border: 1px solid black;
+      border-radius: 3px;
+      padding: 0px 2px;
+      line-height: 1em;
+    }
+
     .note-on, .note-on-add.note-on-add-active {
-      background-color: #f9f9f9;
+      background-color: #0FF572;
     }
     .note-on-add {
       @include transition(background-color, ease, .25s); 
@@ -36,10 +81,42 @@ html {
       @include transition(background-color, ease, .25s); 
     }
   }
+
+
+#transport {
+  div {
+    margin: 0px 8px;
+  }
+  md-input-container {
+    display: inline-block;
+    padding: 2px;
+    margin: 0px;
+    width: 3em;
+  }
+  md-select {
+    padding: 2px;
+    margin: 0px; 
+  }
+  #counter {
+    display: inline-block;
+    line-height: 28px;
+    border-bottom: 1px solid;
+    padding: 2px 2px 1px 2px;
+    margin: 0px;
+    color: rgba(0,0,0,0.87);
+    border-color: rgba(0,0,0,0.12);
+    // border-width: 0 0 1px 0;
+    font-size: 16px;
+    // font-family: inherit;
+    // vertical-align: baseline;
+    box-sizing: border-box;
+  }
 }
 
 .transport-button {
-  width: 80px;
+  width: 60px;
+  height: 40px;
+  margin: 4px;
   background-color: #f9f9f9;
 }
 
@@ -78,11 +155,11 @@ html {
 
 
 .fixed-height {
-  height: 36px;
+  height: 3em;
 }
 
 .beat-boundary {
-  border-right: 1px solid black;
+  border-right: 1px solid #bdbdbd;
 }
 
 [layout=row] {
@@ -104,9 +181,9 @@ html {
   }
 }
 
-md-toolbar.md-default-theme {
-  background-color: black;
-}
+// md-toolbar.md-default-theme {
+//   background-color: black;
+// }
 
 section.jumbotron {
   margin-bottom: 30px;

@@ -5,7 +5,9 @@ Rails.application.routes.draw do
     resources :kits, except: [:new, :edit, :patch]
     resources :notations, except: [:new, :edit, :patch]
     resources :scores, except: [:new, :edit, :patch]
-    resources :users,  except: [:new, :edit, :patch]
+    resources :users,  except: [:new, :edit, :patch] do
+      resources :notations, except: [:new, :edit, :patch]
+    end
     resources :sessions, only: [:index, :create] #, :destroy]
 
     # This way we don't need to pass in the session ID in the URL,

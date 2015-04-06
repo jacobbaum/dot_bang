@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('dotBang')
-  .controller('NotationCtrl', ['$scope', '$rootScope', '$timeout', 'NotationService', '$mdDialog', function($scope, $rootScope, $timeout, NotationService, $mdDialog) {
+  .controller('NotationCtrl', ['$scope', '$rootScope', '$timeout', 'NotationService', 'AuthService', '$mdDialog', function($scope, $rootScope, $timeout, NotationService, AuthService, $mdDialog) {
 
     function getNotations(){
       return NotationService.getNotations()
@@ -12,7 +12,21 @@ angular.module('dotBang')
       .error(function() {
         alert('GET: error');
       });
+      // .then(function(){
+      //   if (!$scope.notation) {
+      //     // console.log(JSON.stringify($scope.allNotations));
+      //     var defaultNotation = 
+      //       _.find($scope.allNotations, function(notation){
+      //         return notation.name === 'Demo';
+      //       });
+      //     NotationService.getNotation(defaultNotation);
+      //   }
+      // });
     }
+
+    // load default notation
+
+
 
     // $scope.allNotations = [];
 
@@ -20,11 +34,11 @@ angular.module('dotBang')
 
     getNotations();
 
-    $timeout(function(){
-      console.log($scope.allNotations);
-    }, 2000);
+    // $timeout(function(){
+    //   console.log($scope.allNotations);
+    // }, 2000);
 
-    console.log($scope.allNotations); // This logs undefined
+    // console.log($scope.allNotations); // This logs undefined
 
 
     // tests to see if either 'number' undefined
@@ -42,13 +56,12 @@ angular.module('dotBang')
 
     // console.log();
 
-    // load default notation
-    // var defaultNotation = 
-    //   _.filter($scope.allNotations, function(notation){
-    //     return notation.name === 'Demo';
-    //   });
+
 
     // console.log(defaultNotation);
+
+
+
 
     $scope.getNotation = function(notation){
       console.log(notation);
@@ -70,6 +83,16 @@ angular.module('dotBang')
       $scope.notation = NotationService.notation;
     });
 
+    function saveTempoAndMeter() {
+      $scope.notation.bpm = Tone.Transport.bpm.value;
+      $scope.notation['time_signature'] = Tone.Transport.timeSignature;
+    }
+
+    function saveUserId(){
+      console.log($scope.notation['user_id']);
+      console.log($scope.user.id);
+      $scope.notation['user_id'] = $scope.user.id;
+    }
 
     $scope.saveAs = function($event){
       $mdDialog.show({
@@ -81,11 +104,14 @@ angular.module('dotBang')
       })
       .then(function(name) {
         $scope.notation.name = name;
-        NotationService.addNotation($scope.notation);
+        saveTempoAndMeter();
+        saveUserId();
+        NotationService.addNotation($scope.notation); //****user
+        getNotations();
       }, function() {
       // $scope.alert = 'You cancelled the dialog.';
       });
-    }
+    };
 
     $scope.cancelSave = function() {
       $mdDialog.cancel();
@@ -97,12 +123,14 @@ angular.module('dotBang')
     };
 
     $scope.save = function(){
-      NotationService.updateNotation($scope.notation);
-    }
+      saveTempoAndMeter();
+      saveUserId();
+      NotationService.updateNotation($scope.notation);  //****user
+    };
 
-    $scope.addNotation = function(){
-      console.log($scope.newNotation);
-    }
+    // $scope.addNotation = function(){
+    //   console.log($scope.newNotation);
+    // }
 
     // $scope.addGroup = function() {
     //   var newGroup = { name: $scope.newGroupName };
@@ -144,6 +172,33 @@ angular.module('dotBang')
     $scope.beatBoundary = function(noteIndex){
       return (noteIndex + 1) % 4 === 0;
     };
+
+    $scope.wrongUser = function(){
+      // console.log(!!$scope.user)
+      if (!!$scope.user) {
+        return !($scope.user.id === $scope.notation['user_id']);
+      } else {
+        return true;
+      }
+    };
+
+    $scope.noUser = function(){
+      return !(AuthService.isAuthenticated());
+    }
+     
+
+
+
+    // example output - grouping note divs
+
+    // index, 0 - 31
+    // +1, 1-32
+    // differentiate between [1,2,3,4] and [5,6,7,8]
+    //                       [9,10,11,12] and [13,14,15,16]
+    // odd, even, every other...?
+    // starting #s for odd divs - 5, 13, 21, 29
+
+    // n-5 % 8
   
     // // Tone docs example
     // //setup a polyphonic sampler

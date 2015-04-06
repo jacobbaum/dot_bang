@@ -22,6 +22,9 @@ angular.module('dotBang')
       $http.get('/api/notations/' + notation.id)
       .success(function(data){
         noteServ.notation = data;
+        noteServ.currentTimeSignature = noteServ.notation['time_signature'];
+        console.log(noteServ.notation['time_signature']);
+        console.log(noteServ.currentTimeSignature);
       })
       .error(function() {
         alert('GET: error');
@@ -36,9 +39,10 @@ angular.module('dotBang')
       $http.post('/api/notations/', { notation: notation } )
       .success(function(data){
         noteServ.notation = data;
+        noteServ.currentTimeSignature = noteServ.notation['time_signature'];
       })
       .error(function() {
-        alert('GET: error');
+        alert('POST: error');
       })
       .then(function(){
         $rootScope.$emit('notation loaded');
@@ -54,7 +58,7 @@ angular.module('dotBang')
       })
       .error(function() {
         alert('PUT: error');
-      })
+      });
       // .then(function(){
       //   $rootScope.$emit('notation loaded');
       // });
@@ -62,178 +66,24 @@ angular.module('dotBang')
 
 
 
+  //   noteServ.channelCount = noteServ.notation.channels.length;
 
+    // ... delegated to transport controller ...
+    // sets time signature on load - TODO move to function that gets called whenever notation loaded.
+    // $scope.timeSignature in transport controller might need to be manually updated.
+    // Tone.Transport.timeSignature = parseInt(noteServ.notation.timeSignature, 10);
 
-    // noteServ.notation = 
-    //   {'name': 'demo', 'timeSignature': '4', 'channels': [  //save time signature here?  bar count?
-    //     {'number':'01', 'notes': [
-    //       {'time':'0:0:0', 'value':'.'},{'time':'0:0:1', 'value':' '},
-    //       {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
-    //       {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
-    //       {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':' '},
-    //       {'time':'0:2:0', 'value':'.'},{'time':'0:2:1', 'value':' '},
-    //       {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
-    //       {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
-    //       {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
-    //       {'time':'1:0:0', 'value':'.'},{'time':'1:0:1', 'value':' '},
-    //       {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
-    //       {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':' '},
-    //       {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
-    //       {'time':'1:2:0', 'value':'.'},{'time':'1:2:1', 'value':' '},
-    //       {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
-    //       {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
-    //       {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
-    //     },
-    //     {'number':'02', 'notes': [
-    //       {'time':'0:0:0', 'value':' '},{'time':'0:0:1', 'value':'.'},
-    //       {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
-    //       {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':'.'},
-    //       {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':' '},
-    //       {'time':'0:2:0', 'value':' '},{'time':'0:2:1', 'value':' '},
-    //       {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
-    //       {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
-    //       {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
-    //       {'time':'1:0:0', 'value':' '},{'time':'1:0:1', 'value':' '},
-    //       {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
-    //       {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':' '},
-    //       {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
-    //       {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
-    //       {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
-    //       {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
-    //       {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
-    //     },
-    //     {'number':'03', 'notes': [
-    //       {'time':'0:0:0', 'value':' '},{'time':'0:0:1', 'value':' '},
-    //       {'time':'0:0:2', 'value':'.'},{'time':'0:0:3', 'value':' '},
-    //       {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
-    //       {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':' '},
-    //       {'time':'0:2:0', 'value':' '},{'time':'0:2:1', 'value':' '},
-    //       {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
-    //       {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
-    //       {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
-    //       {'time':'1:0:0', 'value':' '},{'time':'1:0:1', 'value':' '},
-    //       {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
-    //       {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':' '},
-    //       {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
-    //       {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
-    //       {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
-    //       {'time':'1:3:0', 'value':'.'},{'time':'1:3:1', 'value':' '},
-    //       {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
-    //     },
-    //     {'number':'04', 'notes': [
-    //       {'time':'0:0:0', 'value':' '},{'time':'0:0:1', 'value':' '},
-    //       {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
-    //       {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
-    //       {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':'.'},
-    //       {'time':'0:2:0', 'value':' '},{'time':'0:2:1', 'value':' '},
-    //       {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
-    //       {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
-    //       {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
-    //       {'time':'1:0:0', 'value':' '},{'time':'1:0:1', 'value':' '},
-    //       {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
-    //       {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':' '},
-    //       {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
-    //       {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
-    //       {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':'.'},
-    //       {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
-    //       {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
-    //     },
-    //     {'number':'05', 'notes': [
-    //       {'time':'0:0:0', 'value':' '},{'time':'0:0:1', 'value':' '},
-    //       {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
-    //       {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
-    //       {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':' '},
-    //       {'time':'0:2:0', 'value':' '},{'time':'0:2:1', 'value':' '},
-    //       {'time':'0:2:2', 'value':'.'},{'time':'0:2:3', 'value':'.'},
-    //       {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
-    //       {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
-    //       {'time':'1:0:0', 'value':' '},{'time':'1:0:1', 'value':' '},
-    //       {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
-    //       {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':' '},
-    //       {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
-    //       {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
-    //       {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
-    //       {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
-    //       {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
-    //     },
-    //     {'number':'06', 'notes': [
-    //       {'time':'0:0:0', 'value':' '},{'time':'0:0:1', 'value':' '},
-    //       {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
-    //       {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
-    //       {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':'.'},
-    //       {'time':'0:2:0', 'value':' '},{'time':'0:2:1', 'value':' '},
-    //       {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
-    //       {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
-    //       {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
-    //       {'time':'1:0:0', 'value':' '},{'time':'1:0:1', 'value':' '},
-    //       {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
-    //       {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':'.'},
-    //       {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
-    //       {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
-    //       {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
-    //       {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
-    //       {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
-    //     },
-    //     {'number':'07', 'notes': [
-    //       {'time':'0:0:0', 'value':' '},{'time':'0:0:1', 'value':' '},
-    //       {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
-    //       {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
-    //       {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':' '},
-    //       {'time':'0:2:0', 'value':'.'},{'time':'0:2:1', 'value':' '},
-    //       {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
-    //       {'time':'0:3:0', 'value':'.'},{'time':'0:3:1', 'value':' '},
-    //       {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
-    //       {'time':'1:0:0', 'value':'.'},{'time':'1:0:1', 'value':' '},
-    //       {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
-    //       {'time':'1:1:0', 'value':'.'},{'time':'1:1:1', 'value':' '},
-    //       {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
-    //       {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
-    //       {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
-    //       {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
-    //       {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
-    //     },
-    //     {'number':'08', 'notes': [
-    //       {'time':'0:0:0', 'value':'.'},{'time':'0:0:1', 'value':' '},
-    //       {'time':'0:0:2', 'value':' '},{'time':'0:0:3', 'value':' '},
-    //       {'time':'0:1:0', 'value':' '},{'time':'0:1:1', 'value':' '},
-    //       {'time':'0:1:2', 'value':' '},{'time':'0:1:3', 'value':' '},
-    //       {'time':'0:2:0', 'value':' '},{'time':'0:2:1', 'value':' '},
-    //       {'time':'0:2:2', 'value':' '},{'time':'0:2:3', 'value':' '},
-    //       {'time':'0:3:0', 'value':' '},{'time':'0:3:1', 'value':' '},
-    //       {'time':'0:3:2', 'value':' '},{'time':'0:3:3', 'value':' '},
-    //       {'time':'1:0:0', 'value':'.'},{'time':'1:0:1', 'value':' '},
-    //       {'time':'1:0:2', 'value':' '},{'time':'1:0:3', 'value':' '},
-    //       {'time':'1:1:0', 'value':' '},{'time':'1:1:1', 'value':' '},
-    //       {'time':'1:1:2', 'value':' '},{'time':'1:1:3', 'value':' '},
-    //       {'time':'1:2:0', 'value':' '},{'time':'1:2:1', 'value':' '},
-    //       {'time':'1:2:2', 'value':' '},{'time':'1:2:3', 'value':' '},
-    //       {'time':'1:3:0', 'value':' '},{'time':'1:3:1', 'value':' '},
-    //       {'time':'1:3:2', 'value':' '},{'time':'1:3:3', 'value':' '}]
-    //     }
-    //     ]
-    //   };
+    // time signature changes can come from two places: notation JSON and transport controller
+    // transport controller is passed in .... notation already here .... 
 
-      // Am i using this? Should it be used for drumCount in sampler loop?  
-      // will there be a need to check that the number of voices matches the number of channels?
-  //    noteServ.channelCount = noteServ.notation.channels.length;
-
-      // sets time signature on load - TODO move to function that gets called whenever notation loaded.
-      // $scope.timeSignature in transport controller might need to be manually updated.
-//      Tone.Transport.timeSignature = parseInt(noteServ.notation.timeSignature, 10);
-
-
-      // time signature changes can come from two places: notation JSON and transport controller
-      // transport controller is passed in .... notation already here .... 
-
-      // also set on load
- //     var currentTimeSignature = parseInt(noteServ.notation.timeSignature, 10);
+    // also set on load
 
       function correctTimeSignature() {
-       return Tone.Transport.timeSignature === currentTimeSignature;
+       return Tone.Transport.timeSignature === noteServ.currentTimeSignature;
       }
 
       function addOrRemoveBeats() {
-        var difference = Tone.Transport.timeSignature - currentTimeSignature;
+        var difference = Tone.Transport.timeSignature - noteServ.currentTimeSignature;
         if (difference < 0) {
           removeBeats(Math.abs(difference));
         } else {
@@ -260,15 +110,16 @@ angular.module('dotBang')
         // var numToAdd = 4 * num;
         // var endIndex = length;
         // var middleIndex = middle;
-        // var x = currentTimeSignature;
+        // var x = noteServ.currentTimeSignature;
 
-        var addToEnd = addQuarterNotes(currentTimeSignature, 1);
-        var addToMiddle = addQuarterNotes(currentTimeSignature, 0);
+
 
         // console.log(JSON.stringify(addToMiddle));        
         // console.log(addToEnd);        
 
         _.forEach(noteServ.notation.channels, function(channel){
+          var addToEnd = addQuarterNotes(noteServ.currentTimeSignature, 1);
+          var addToMiddle = addQuarterNotes(noteServ.currentTimeSignature, 0);
           var chunkedNotes = _.chunk(channel.notes, middle);
           var firstBar = chunkedNotes[0].concat(addToMiddle);
           var secondBar = chunkedNotes[1].concat(addToEnd);
@@ -279,6 +130,7 @@ angular.module('dotBang')
         });
 
         console.log(noteServ.notation.channels[0].notes);
+        console.log(noteServ.notation.channels[1].notes);
       }
 
       // adding notes...
@@ -306,6 +158,7 @@ angular.module('dotBang')
       var Note = function(bar, quarter, sixteenth, value) {
         this.time = bar + ':' + quarter + ':' + sixteenth;
         this.value = value;
+        this.id = _.uniqueId();
       };
 
       this.changeTimeSignature = function(timeSign){
@@ -313,7 +166,7 @@ angular.module('dotBang')
         // console.log(Tone.Transport.timeSignature);
         if (!correctTimeSignature()) {
           addOrRemoveBeats();
-          currentTimeSignature = Tone.Transport.timeSignature; 
+          noteServ.currentTimeSignature = Tone.Transport.timeSignature; 
         }
       };
 

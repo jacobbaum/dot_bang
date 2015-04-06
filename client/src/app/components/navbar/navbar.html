@@ -1,13 +1,64 @@
-<md-toolbar layout="row" layout-align="center center" ng-controller="NavbarCtrl">
-
-  <md-button href="https://github.com/Swiip/generator-gulp-angular">Gulp Angular</md-button>
+<md-toolbar class="md-hue-3" layout="row" layout-align="center center" ng-controller="NavbarCtrl">
 
   <section flex layout="row" layout-align="left center">
-    <md-button href="#" class="md-raised">Home</md-button>
+<!--     <md-button href="#" class="md-raised">Home</md-button>
     <md-button href="#" class="md-raised">About</md-button>
-    <md-button href="#" class="md-raised">Contact</md-button>
+    <md-button href="#" class="md-raised">Contact</md-button> -->
+
+     <!--  <ul>
+        <li ng-repeat="tab in tabs"
+            ng-show="showTab(tab)"
+            ng-class="getTabClass(tab)">
+            <a ui-sref="{{ tab.state }}">{{ tab.label }}</a>
+        </li>
+      </ul> -->
+
+
+<!-- <md-tabs md-selected="" md-border-bottom>
+  <md-tab ng-repeat="tab in tabs"
+          ng-show="showTab(tab)"
+          ng-class="getTabClass(tab)"
+          label="{{tab.label}}"
+          ui-sref="{{ tab.state }}"> -->
+
+<h1>!.</h1>
+
+    <!--       
+    <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center;">
+      <div ng-bind="tab.content"></div>
+      <br/>
+      <md-button class="md-primary md-raised" ng-click="removeTab( tab )" ng-disabled="tabs.length <= 1">Remove Tab</md-button>
+    </div>
+  </md-tab> -->
+</md-tabs>
+
+  </section>
+  <span flex></span>
+
+  <section flex layout="row" layout-align="end center">
+    <md-button class="md-primary" ui-sref="login">
+      About
+    </md-button>
+
+    <md-button class="md-primary" ng-hide="isAuthenticated()" ui-sref="login">
+      Sign In
+    </md-button>
+    <md-button class="md-primary" ng-hide="isAuthenticated()" ui-sref="register">
+      Sign Up
+    </md-button>
+    <md-button class="md-primary" ng-show="isAuthenticated()" ng-click="logout()">
+      Sign Out
+    </md-button>
   </section>
 
-  <md-button href="#">Current date: {{ date | date:'yyyy-MM-dd' }}</md-button>
+      <!-- <ul class="nav navbar-nav navbar-right">
+        <li ng-hide="isAuthenticated()"><a ui-sref="login"     >Log In</a></li>
+
+        <li ng-hide="isAuthenticated()"><a ui-sref="register"  >Register</a></li>
+
+        <li ng-show="isAuthenticated()"><a                     >{{ user ? user.email : '' }}</a></li>
+
+        <li ng-show="isAuthenticated()"><a ng-click="logout()" >Log Out</a></li>
+      </ul> -->
 
 </md-toolbar>

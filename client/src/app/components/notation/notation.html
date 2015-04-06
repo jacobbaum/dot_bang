@@ -1,6 +1,6 @@
-<h3>Notation</h3>
+<!-- <h3>Notation</h3> -->
 
-<div ng-repeat="channel in notation.channels track by $index" ng-init="chanIndex = $index" layout="column" layout-margin>
+<div ng-repeat="channel in notation.channels track by $index" ng-init="chanIndex = $index" layout="column">
   <div class="fixed-height" layout="row" layout-align="space-around center">
     <div ng-repeat="note in channel.notes track by $index" ng-init="noteIndex = $index" class="note" ng-class="{'beat-boundary': (!$last && beatBoundary(noteIndex))}" flex>
       <md-input-container>
@@ -12,17 +12,32 @@
 
 <md-button ng-click="clearNotes()">Clear Notes</md-button>
 
-<md-select ng-model="notation" placeholder="Load a Beat" ng-change="getNotation(notation)">
+<!-- <md-select ng-model="notation" placeholder="Load a Beat" ng-change="getNotation(notation)">
   <md-option ng-value="notation" ng-repeat="notation in allNotations">
     {{ notation.name }} - bpm: {{ notation.bpm}}, meter: {{notation['time_signature']}}/4
   </md-option>
-</md-select>
+</md-select> -->
 
-<md-button ng-click="saveAs()">Save As</md-button>
+    <md-select ng-model="notation" placeholder="Load a Beat" ng-change="getNotation(notation)">
+      <md-optgroup label="My Beats">
+        <md-option ng-value="notation" ng-repeat="notation in allNotations | filter: { 'user_id': user.id }">{{ notation.name }} - bpm: {{ notation.bpm}}, meter: {{notation['time_signature']}}/4
+      </md-option>
+      </md-optgroup>
+      <md-optgroup label="Presets">
+        <md-option ng-value="notation" ng-repeat="notation in allNotations | filter: {preset: true }">{{ notation.name }} - bpm: {{ notation.bpm}}, meter: {{notation['time_signature']}}/4
+      </md-option>
+      </md-optgroup>
+    </md-select>
 
-<md-button ng-click="save()">Save</md-button>
 
-{{ notation.name }}
+
+
+
+<md-button ng-disabled="noUser()" ng-click="saveAs()">Save As</md-button>
+
+<md-button ng-disabled="wrongUser()" ng-click="save()">Save</md-button>
+
+{{ notation.name }} {{ user.name }} {{ user.id }}
 
 
 

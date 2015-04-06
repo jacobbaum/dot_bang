@@ -1,7 +1,29 @@
 'use strict';
 
 angular.module('dotBang')
-  .controller('SequencerCtrl', ['$scope', '$rootScope', 'NotationService', 'SampleService', function ($scope, $rootScope, NotationService, SampleService) {
+  .controller('SequencerCtrl', ['$scope', '$rootScope', 'NotationService', 'SampleService', 'AuthService', function ($scope, $rootScope, NotationService, SampleService, AuthService) {
+
+  AuthService.getSession().success(function(user) {
+    $scope.user = user;
+  });
+
+  $rootScope.$on('auth:new-registration', function(event, user) {
+    console.log('sequencer caught event auth:new-registration with user = ' + JSON.stringify(user));
+    $scope.user = user;
+    // $state.go('sequencer');
+  });
+
+  $rootScope.$on('auth:login', function(event, user) {
+    console.log('sequencer caught event auth:login with user = ' + JSON.stringify(user));
+    // console.log('cookies: ' + JSON.stringify($browser.cookies()));
+    $scope.user = user;
+    // $state.go('sequencer');
+  });
+
+  $rootScope.$on('auth:logout', function(/* event, user */) {
+    $scope.user = null;
+    // $state.go('login');
+  });
 
     var dotSettings = { 'volume': -15 };
     var bangSettings =  { 'volume': -10 };

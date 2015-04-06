@@ -73,7 +73,7 @@ class Api::NotationsController < ApplicationController
     # end
 
     def notation_params
-      params.require(:notation).permit(:name, :time_signature, :bpm)
+      params.require(:notation).permit(:name, :time_signature, :bpm, :user_id)
           # channels: [ :number ])
           # , notes: [ { :time, :value } ] } ])
     end
