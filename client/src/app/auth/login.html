@@ -1,27 +1,28 @@
-<div class="login">
-  <div class="page-header">
-    <h1>Log In</h1>
+<div layout="row">
+  <div layout="column" class="auth-form">
+    <h1>Sign In</h1>
+    <form name="loginForm" ng-submit="login()" novalidate>
+      <md-input-container>
+      <label>email</label>
+        <input type="email"
+               name="email"
+               class="form-control"
+               placeholder="Email"
+               ng-model="session.email"
+               required>
+      </md-input-container>
+      <md-input-container>
+      <label>password</label>
+        <input type="password"
+               name="password"
+               class="form-control"
+               placeholder="Password"
+               ng-model="session.password"
+               required>
+      </md-input-container>
+      <md-button type="submit"
+              class="md-primary md-raised"
+              ng-disabled="loginForm.$invalid">Login</md-button>
+    </form>
   </div>
-
-  <form name="loginForm"ng-submit="login()" novalidate>
-    <div class="form-group">
-      <input type="email"
-             name="email"
-             class="form-control"
-             placeholder="Email"
-             ng-model="session.email"
-             required>
-    </div>
-    <div class="form-group">
-      <input type="password"
-             name="password"
-             class="form-control"
-             placeholder="Password"
-             ng-model="session.password"
-             required>
-    </div>
-    <button type="submit"
-            class="btn btn-primary"
-            ng-disabled="loginForm.$invalid">Login</button>
-  </form>
 </div>

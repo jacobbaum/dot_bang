@@ -1,57 +1,64 @@
-<div class="registration">
-  <div class="page-header">
-    <h1>Register</h1>
+<div layout="row">
+  <div layout="column" class="auth-form">
+    <h1>Sign Up</h1>
+    <form name="registrationForm" ng-submit="register()" novalidate>
+
+      <md-input-container>
+        <label>name</label>
+        <input type="text"
+               name="name"
+               class="form-control"
+               placeholder="Name"
+               ng-model="user.name"
+               ng-minlength="1"
+               ng-maxlength="40"
+               required>
+        <div ng-messages="registrationForm.name.$error">
+          <div ng-message="required">...required</div>
+          <div ng-message="minlength">...at least three letters</div>
+          <div ng-message="maxlength">...but not more than forty</div>
+        </div>
+      </md-input-container>
+
+
+      <md-input-container>
+      <label>email</label>
+        <input type="email"
+               name="email"
+               class="form-control"
+               placeholder="Email"
+               ng-model="user.email"
+               ng-minlength="5"
+               ng-maxlength="40"
+               required>
+        <div ng-messages="registrationForm.email.$error">
+          <div ng-message="required">...required</div>
+          <div ng-message="minlength">...needs at least five characters</div>
+          <div ng-message="maxlength">...but not more than forty</div>
+          <div ng-message="email">...this doesn't look like a valid email address</div>
+        </div>
+      </md-input-container>
+
+      <md-input-container>
+        <label>password</label>
+        <input type="password"
+               name="password"
+               class="form-control"
+               placeholder="Password"
+               ng-model="user.password"
+               ng-minlength="6"
+               ng-maxlength="20"
+               required>
+        <div ng-messages="registrationForm.password.$error">
+          <div ng-message="required">...required</div>
+          <div ng-message="minlength">...needs at least six characters</div>
+          <div ng-message="maxlength">...but no more than twenty</div>
+        </div>  
+      </md-input-container>
+
+      <md-button type="submit"
+              class="md-primary md-raised"
+              ng-disabled="registrationForm.$invalid">Register</md-button>
+    </form>
   </div>
-
-  <form name="registrationForm" ng-submit="register()" novalidate>
-    <div class="form-group">
-      <input type="text"
-             name="name"
-             class="form-control"
-             placeholder="Name"
-             ng-model="user.name"
-             ng-minlength="5"
-             ng-maxlength="40"
-             required>
-      <div ng-messages="registrationForm.name.$error">
-        <div class="text-danger" ng-message="required">You forgot to enter your name...</div>
-        <div class="text-danger" ng-message="minlength">Your name is too short...</div>
-        <div class="text-danger" ng-message="maxlength">Your name is too long...</div>
-      </div>
-    </div>
-    <div class="form-group">
-      <input type="email"
-             name="email"
-             class="form-control"
-             placeholder="Email"
-             ng-model="user.email"
-             ng-minlength="5"
-             ng-maxlength="40"
-             required>
-      <div ng-messages="registrationForm.email.$error">
-        <div class="text-danger" ng-message="required">You forgot to enter your email address...</div>
-        <div class="text-danger" ng-message="minlength">Your email address is too short...</div>
-        <div class="text-danger" ng-message="maxlength">Your email address is too long...</div>
-        <div class="text-danger" ng-message="email">You did not enter your email address correctly...</div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <input type="password"
-             name="password"
-             class="form-control"
-             placeholder="Password"
-             ng-model="user.password"
-             ng-minlength="8"
-             ng-maxlength="20"
-             required>
-      <div ng-messages="registrationForm.password.$error">
-        <div class="text-danger" ng-message="required">You forgot to enter your password address...</div>
-        <div class="text-danger" ng-message="minlength">Your password is too short...</div>
-        <div class="text-danger" ng-message="maxlength">Your password is too long...</div>
-    </div>
-    <button type="submit"
-            class="btn btn-primary"
-            ng-disabled="registrationForm.$invalid">Register</button>
-  </form>
 </div>

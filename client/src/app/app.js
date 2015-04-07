@@ -6,6 +6,7 @@ angular.module('dotBang',
     'ngTouch', 
     'ngSanitize', 
     'ui.router',
+    'ngMessages',
     'ngMaterial',
   ])
 .config(['$httpProvider', '$stateProvider', '$urlRouterProvider', '$mdThemingProvider', function($httpProvider, $stateProvider, $urlRouterProvider, $mdThemingProvider) {
@@ -53,10 +54,11 @@ angular.module('dotBang',
         alert('GET: error');
       })
       .then(function(){
-        if (AuthService.isAuthenticated()) {
+        var user = AuthService.currentUser;
+        if (AuthService.isAuthenticated() && _.some(allNotations, 'user_id', user.id)) {
           var defaultNotation = 
             _.find(allNotations, function(notation){
-              return notation['user_id'] === AuthService.currentUser.id;
+              return notation['user_id'] === user.id;
             });
           NotationService.getNotation(defaultNotation);
         } else {
@@ -85,7 +87,7 @@ angular.module('dotBang',
         SampleService.getKit(defaultKit);  
         });  
       });
-    } // on enter 
+    } // on enter end
   })
   .state('about', {
     url: '/about',
@@ -111,11 +113,13 @@ angular.module('dotBang',
     'hue-2': '700', 
     'hue-3': '800' 
   })
-  .accentPalette('deep-orange');
+  .accentPalette('amber');
 }]);
 
+  /******* TODO ********/
 
   // Nested states?
+  // Other options for template urls?
 
   // .state('sequencer', {
   //   url: '/sequencer',
@@ -139,33 +143,4 @@ angular.module('dotBang',
   //   controller: 'notationCtrl'  
   // })
 
-  // Named, nested views?
-  //   .state('sequencer', {
-  //     url: '/sequencer',
-  //     views: {
-  //       '': {
-  //         templateUrl: 'app/sequencer/sequencer.html',
-  //         controller: 'SequencerCtrl'
-  //       },
-  //       'transport': {
-  //         templateUrl: 'components/transport/transport.html',
-  //         controller: 'transportCtrl'
-  //       },
-  //       'notation': {
-  //         templateUrl: 'components/notation/notation.html',
-  //         controller: 'notationCtrl'
-  //       },
-  //       'samples': {
-  //         templateUrl: 'components/samples/samples.html',
-  //         controller: 'notationCtrl'
-  //       },
-  //       'controls': {
-  //         templateUrl: 'components/controls/controls.html',
-  //         controller: 'notationCtrl'
-  //       }
-  //     }  
-  //   })
-  //   .state('about', {
-  //     url: 'about',
-  //   });
-  // $urlRouterProvider.otherwise('/');  
+ 

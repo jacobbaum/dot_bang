@@ -38,11 +38,11 @@
 
 <div layout="row" layout-align="end start" flex>
 
-  <md-button class="md-raised" ng-click="clearNotes()">Clear Notes</md-button>
+  <md-button class="md-raised md-primary md-hue-2" ng-click="clearNotes()">Clear Notes</md-button>
 
-  <md-button class="md-raised" ng-disabled="noUser()" ng-click="saveAs()">Save As</md-button>
+  <md-button class="md-raised md-primary md-hue-2" ng-disabled="noUser()" ng-click="saveAs()">Save As</md-button>
 
-  <md-button class="md-raised" ng-disabled="wrongUser()" ng-click="save()">Save</md-button>
+  <md-button class="md-raised md-primary md-hue-2" ng-disabled="userNotAuthorized()" ng-click="save()">Save</md-button>
 
 </div>
 

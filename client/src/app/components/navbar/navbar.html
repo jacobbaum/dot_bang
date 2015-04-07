@@ -22,7 +22,7 @@
           ui-sref="{{ tab.state }}"> -->
 
 <!-- <h1><a ui-sref="sequencer">!.</a></h1> -->
-<md-button class="md-primary badge">
+<md-button ng-class="{'small-badge': !$state.is('sequencer')}" class="md-primary badge">
 <h1>.!</h1>
 </md-button>
     <!--       

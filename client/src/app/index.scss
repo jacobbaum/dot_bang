@@ -30,7 +30,6 @@ body {
   padding: .5em;
 }
 
-
 .md-button {
   background: transparent;
   text-transform: none;
@@ -41,18 +40,32 @@ md-toolbar {
   
   padding-right: .5em;
 
-  h1 {
-    font-family: $font-serif;
-    font-size: 8em;
-    margin: 0 .25em;
-    line-height: 1em;
-  }
-
   .badge {
     position: absolute;
     top: 0px;
     left: 0px;
     padding: 0px;
+
+    h1 {
+      font-family: $font-serif;
+      font-size: 8em;
+      margin: 0 .25em;
+      line-height: 1em;
+    }
+  }
+
+  .small-badge {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    padding: 0px;
+
+    h1 {
+      font-family: $font-serif;
+      font-size: 3em;
+      margin: 0 .25em;
+      line-height: 1em;
+    }
   }
 
   .md-button {
@@ -233,7 +246,16 @@ md-toolbar {
 
 .under-notes {
   margin-top: 10px;
+
+  .md-button {
+    margin-left: 6px;
+  }
 }
+
+.auth-form {
+  margin-left: 4em;
+}
+
 [layout=row] {
   flex-direction: row;
 }

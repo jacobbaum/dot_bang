@@ -167,20 +167,26 @@ angular.module('dotBang')
       }
       note.value = noteValues[i];
       // console.log(note);
-      };
+    };
 
     $scope.beatBoundary = function(noteIndex){
       return (noteIndex + 1) % 4 === 0;
     };
 
-    $scope.wrongUser = function(){
-      // console.log(!!$scope.user)
-      if (!!$scope.user) {
-        return !($scope.user.id === $scope.notation['user_id']);
-      } else {
-        return true;
-      }
-    };
+    // $scope.userNotAuthorized = function(){
+    //   // console.log(!!$scope.user)
+    //   if (AuthService.isAuthenticated()) {
+    //     return ($scope.user.id !== $scope.notation['user_id']);
+    //   } 
+    // };
+
+    $scope.userNotAuthorized =
+    $rootScope.$on('notation loaded', function () {
+      if (AuthService.isAuthenticated()) {
+        return ($scope.user.id !== $scope.notation['user_id']);
+      }       
+    });
+
 
     $scope.noUser = function(){
       return !(AuthService.isAuthenticated());
