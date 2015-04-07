@@ -1,12 +1,11 @@
 <!-- <h3>Transport</h3> -->
+<md-toolbar id="more-tools" layout="row">
+<div flex="20"></div>
 
-<div id="transport" layout="row" layout-align="end start" layout-margin>
-
-
-
+<div id="transport" layout="row" layout-align="end start" flex="80" layout-margin>
 
 <div layout="column">
-<span>BPM:</span>
+<span class="transport-label">BPM:</span>
 <md-input-container>
   <input required type="number" step="any" name="bpm" ng-model="bpm" ng-change="setBpm()" min="1" max="300">
 </md-input-container>
@@ -17,7 +16,7 @@
   <input required type="number" step="any" name="timeSignature" ng-model="timeSignature" ng-change="setTimeSignature()" min="1" max="11">
 </md-input-container> -->
 <div layout="column">
-<span>Time Signature:</span>
+<span class="transport-label">Time Signature:</span>
 <md-select ng-model="timeSignature" placeholder="Time Signature" ng-change="setTimeSignature()">
   <md-option ng-value="timeSign.value" ng-repeat="timeSign in timeSignatures">
     {{ timeSign.display }}
@@ -26,7 +25,7 @@
 </div>
 
 <div layout="column">
-  <span>Transport:</span>
+  <span class="transport-label">Transport:</span>
   <div id="counter">{{ position }}</div>
 </div>
 
@@ -52,4 +51,4 @@
 
 </div>
 </div>
-
+</md-toolbar>

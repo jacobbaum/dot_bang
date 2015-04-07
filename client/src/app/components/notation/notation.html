@@ -1,5 +1,12 @@
 <!-- <h3>Notation</h3> -->
 
+<div class="subsection" layout="row" layout-align="space-between start">
+
+  <span class="a-kind-of">Beat:<span><h2> {{ notation.name }}</h2>
+
+</div>
+
+
 <div ng-repeat="channel in notation.channels track by $index" ng-init="chanIndex = $index" layout="column">
   <div class="fixed-height" layout="row" layout-align="space-around center">
     <div ng-repeat="note in channel.notes track by $index" ng-init="noteIndex = $index" class="note" ng-class="{'beat-boundary': (!$last && beatBoundary(noteIndex))}" flex>
@@ -10,7 +17,38 @@
   </div>
 </div>
 
-<md-button ng-click="clearNotes()">Clear Notes</md-button>
+<div class="under-notes" layout="row">
+
+<div layout="row" layout-align="start end" flex>
+
+  <md-select class="load-menu" ng-model="notation" placeholder="Load a Beat" ng-change="getNotation(notation)">
+    <md-optgroup label="My Beats">
+      <md-option ng-value="notation" ng-repeat="notation in allNotations | userNotation:user">{{ notation.name }} - bpm: {{ notation.bpm }}, meter: {{notation['time_signature']}}/4
+    </md-option>
+    </md-optgroup>
+    <md-optgroup label="Presets">
+      <md-option ng-value="notation" ng-repeat="notation in allNotations | filter: {preset: true }">{{ notation.name }} - bpm: {{ notation.bpm}}, meter: {{notation['time_signature']}}/4
+    </md-option>
+    </md-optgroup>
+  </md-select>
+
+</div>
+
+
+
+<div layout="row" layout-align="end start" flex>
+
+  <md-button class="md-raised" ng-click="clearNotes()">Clear Notes</md-button>
+
+  <md-button class="md-raised" ng-disabled="noUser()" ng-click="saveAs()">Save As</md-button>
+
+  <md-button class="md-raised" ng-disabled="wrongUser()" ng-click="save()">Save</md-button>
+
+</div>
+
+</div>
+
+
 
 <!-- <md-select ng-model="notation" placeholder="Load a Beat" ng-change="getNotation(notation)">
   <md-option ng-value="notation" ng-repeat="notation in allNotations">
@@ -18,26 +56,15 @@
   </md-option>
 </md-select> -->
 
-    <md-select ng-model="notation" placeholder="Load a Beat" ng-change="getNotation(notation)">
-      <md-optgroup label="My Beats">
-        <md-option ng-value="notation" ng-repeat="notation in allNotations | filter: { 'user_id': user.id }">{{ notation.name }} - bpm: {{ notation.bpm}}, meter: {{notation['time_signature']}}/4
-      </md-option>
-      </md-optgroup>
-      <md-optgroup label="Presets">
-        <md-option ng-value="notation" ng-repeat="notation in allNotations | filter: {preset: true }">{{ notation.name }} - bpm: {{ notation.bpm}}, meter: {{notation['time_signature']}}/4
-      </md-option>
-      </md-optgroup>
-    </md-select>
 
 
 
 
 
-<md-button ng-disabled="noUser()" ng-click="saveAs()">Save As</md-button>
 
-<md-button ng-disabled="wrongUser()" ng-click="save()">Save</md-button>
 
-{{ notation.name }} {{ user.name }} {{ user.id }}
+
+
 
 
 

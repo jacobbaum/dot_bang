@@ -1,7 +1,21 @@
 <!-- <h3>Samples</h3> -->
 
+<div class="subsection" layout="row" layout-align="space-between start">
+
+  <span class="a-kind-of">Kit:<span><h2> {{ kitName }}</h2>
+
+</div>
+
 <div ng-repeat="name in drumNames" layout="column">
   <div class="fixed-height" layout="row" layout-align="end center">
     {{ name }}
   </div>
+</div>
+
+<div class="under-notes" layout="row" layout-align="start end">
+  <md-select class="load-menu" ng-model="kit" placeholder="Load a Kit" ng-change="getKit(kit)">
+    <md-option ng-value="kit" ng-repeat="kit in allKits">
+      {{ kit.name }}
+    </md-option>
+  </md-select>
 </div>

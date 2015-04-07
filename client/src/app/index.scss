@@ -25,6 +25,12 @@ body {
   -o-transition:     $property $easing $time;
   transition:        $property $easing $time;
 }
+
+.middle {
+  padding: .5em;
+}
+
+
 .md-button {
   background: transparent;
   text-transform: none;
@@ -32,13 +38,21 @@ body {
 }
 
 md-toolbar {
-  font-family: $font-serif;
+  
   padding-right: .5em;
 
   h1 {
-    font-size: 3em;
-    margin: 0 .5em .1em .5em;
+    font-family: $font-serif;
+    font-size: 8em;
+    margin: 0 .25em;
     line-height: 1em;
+  }
+
+  .badge {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 0px;
   }
 
   .md-button {
@@ -72,7 +86,7 @@ md-toolbar {
     }
 
     .note-on, .note-on-add.note-on-add-active {
-      background-color: #0FF572;
+      background-color: rgba(255,193,7,.5);
     }
     .note-on-add {
       @include transition(background-color, ease, .25s); 
@@ -82,35 +96,65 @@ md-toolbar {
     }
   }
 
+#more-tools {
+  z-index: 0;
+}
 
 #transport {
+
   div {
-    margin: 0px 8px;
+    margin: 0px 12px;
   }
   md-input-container {
     display: inline-block;
-    padding: 2px;
+    padding: 0px;
     margin: 0px;
-    width: 3em;
+    width: 2.5em;
+    // height: .8em;
   }
   md-select {
-    padding: 2px;
+    padding: 0px;
     margin: 0px; 
   }
+
+  .md-input {
+    font-size: 1.2em;
+    line-height: .8em;
+    padding: 0px;
+    border: none;
+    // height: .8em;
+    margin-top: -7px;
+  }
+
+  .md-select-label {
+    font-size: 1.2em;
+    line-height: .8em;
+    padding: 0px;
+    border: none;
+  }
+
   #counter {
     display: inline-block;
-    line-height: 28px;
-    border-bottom: 1px solid;
-    padding: 2px 2px 1px 2px;
+    font-size: 1.2em;
+    line-height: .8em;
     margin: 0px;
-    color: rgba(0,0,0,0.87);
-    border-color: rgba(0,0,0,0.12);
-    // border-width: 0 0 1px 0;
-    font-size: 16px;
-    // font-family: inherit;
-    // vertical-align: baseline;
-    box-sizing: border-box;
   }
+
+
+  // #counter {
+  //   display: inline-block;
+  //   line-height: 28px;
+  //   // border-bottom: 1px solid;
+  //   padding: 2px 2px 1px 2px;
+  //   margin: 0px;
+  //   color: rgba(0,0,0,0.87);
+  //   // border-color: rgba(0,0,0,0.12);
+  //   // border-width: 0 0 1px 0;
+  //   font-size: 16px;
+  //   // font-family: inherit;
+  //   // vertical-align: baseline;
+  //   box-sizing: border-box;
+  // }
 }
 
 .transport-button {
@@ -120,6 +164,27 @@ md-toolbar {
   background-color: #f9f9f9;
 }
 
+.transport-label {
+  font-size: .7em;
+  font-weight: bold;
+  letter-spacing: .05em;
+  font-family: $font-serif;
+}
+.subsection {
+
+  padding-bottom: .5em;
+
+  .a-kind-of {
+    font-family: $font-sans;
+    font-size: 1em;
+    font-weight: normal;
+  }
+
+  h2 {
+    font-family: $font-serif;
+    display: inline;
+  }
+}
 
 // .ng-enter, .ng-move{
 //   -webkit-animation: fadeIn 1s;
@@ -162,6 +227,13 @@ md-toolbar {
   border-right: 1px solid #bdbdbd;
 }
 
+.load-menu {
+  margin-top: 0px;
+}
+
+.under-notes {
+  margin-top: 10px;
+}
 [layout=row] {
   flex-direction: row;
 }

@@ -12,7 +12,8 @@ class Api::KitsController < ApplicationController
   # GET /kits/1
   # GET /kits/1.json
   def show
-    render json: @kit
+    render json: @kit, include: :samples
+    # render json: @notation, include: { channels: { include: :notes }}
   end
 
   # POST /kits

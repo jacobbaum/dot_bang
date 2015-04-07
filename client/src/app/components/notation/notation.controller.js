@@ -159,7 +159,7 @@ angular.module('dotBang')
     };
 
     $scope.cycleNotes = function(note){
-      var noteValues = [' ', '.', '!'];
+      var noteValues = [' ', '.', '!', ','];
       var i = noteValues.indexOf(note.value);
       i ++;
       if (i === noteValues.length) {

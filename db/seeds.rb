@@ -6,34 +6,13 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-
-# Group.create!([
-#   { name: 'Ben Franklin Labs' },
-#   { name: 'General Assembly' },
-#   { name: 'WDI Atlanta' },
-#   { name: 'IniTech' }
-# ])
-
-
-    # var kitData = {'name': 'rock', 'samples': [
-    #   {'name': 'kick', 'url': '/app/audio/rock-kit/rock-kick.wav'},
-    #   {'name': 'snare', 'url': '/app/audio/rock-kit/rock-snare.wav'},
-    #   {'name': 'open high hat', 'url': '/app/audio/rock-kit/rock-hh-open.wav'},
-    #   {'name': 'closed high hat', 'url': '/app/audio/rock-kit/rock-hh-closed.wav'},
-    #   {'name': 'floor tom', 'url': '/app/audio/rock-kit/rock-tom-floor.wav'},
-    #   {'name': 'rack tom', 'url': '/app/audio/rock-kit/rock-tom-rack.wav'},
-    #   {'name': 'ride cymbal bell', 'url': '/app/audio/rock-kit/rock-cymbal-ride-bell.wav'},
-    #   {'name': 'crash cymbal', 'url': '/app/audio/rock-kit/rock-cymbal-crash.wav'}
-    # ]};
-
-
 Score.destroy_all   
 Notation.destroy_all
 Kit.destroy_all
 
-score = Score.create(name:'Rock Demo')
+# score = Score.create(name:'Rock Demo')
 
-rock_kit = Kit.create(name: 'Rock', score: score)
+rock_kit = Kit.create(name: 'Rock')   #, score: score)
 
 Sample.create([
   { name: 'kick',             
@@ -62,9 +41,37 @@ Sample.create([
     url:  '/app/audio/rock-kit/rock-cymbal-crash.wav' }
   ])
 
+jazz_kit = Kit.create(name: 'Jazz')   #, score: score)
+
+Sample.create([
+  { name: 'kick',             
+    kit:  jazz_kit, 
+    url:  '/app/audio/jazz-kit/jazz-kick.wav' },
+  { name: 'snare',            
+    kit:  jazz_kit, 
+    url:  '/app/audio/jazz-kit/jazz-snare.wav' },
+  { name: 'open high hat',    
+    kit:  jazz_kit, 
+    url:  '/app/audio/jazz-kit/jazz-hh-open.wav' },
+  { name: 'closed high hat',  
+    kit:  jazz_kit, 
+    url:  '/app/audio/jazz-kit/jazz-hh-closed.wav' },
+  { name: 'floor tom',        
+    kit:  jazz_kit, 
+    url:  '/app/audio/jazz-kit/jazz-tom-floor.wav' },
+  { name: 'rack tom',         
+    kit:  jazz_kit, 
+    url:  '/app/audio/jazz-kit/jazz-tom-rack.wav' },
+  { name: 'ride cymbal', 
+    kit:  jazz_kit, 
+    url:  '/app/audio/jazz-kit/jazz-cymbal-ride.wav' },
+  { name: 'crash cymbal',     
+    kit:  jazz_kit, 
+    url:  '/app/audio/jazz-kit/jazz-cymbal-crash.wav' }
+  ])
 
 demo = Notation.create(
-  name: 'Demo', time_signature: 4, bpm: 104, score: score)
+  name: 'Demo', time_signature: 4, bpm: 104, preset: true) # score: score)
 
 channels = Channel.create([
   { number: 1, notation: demo },

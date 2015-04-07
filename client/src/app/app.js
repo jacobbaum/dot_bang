@@ -42,19 +42,18 @@ angular.module('dotBang',
         controller: 'ControlsCtrl'
       }
     },  
-    onEnter: function(NotationService, AuthService) {
+    onEnter: function(NotationService, AuthService, SampleService) {
       var allNotations = [];
       return NotationService.getNotations()
       .success(function(data) {
         allNotations = data;
-        console.log(allNotations); // This logs an array of objects
+        console.log(allNotations); 
       })
       .error(function() {
         alert('GET: error');
       })
       .then(function(){
         if (AuthService.isAuthenticated()) {
-          // console.log(JSON.stringify($scope.allNotations));
           var defaultNotation = 
             _.find(allNotations, function(notation){
               return notation['user_id'] === AuthService.currentUser.id;
@@ -64,11 +63,29 @@ angular.module('dotBang',
           var defaultNotation = 
             _.find(allNotations, function(notation){
               return notation.name === 'Demo';
-            });
+          });
           NotationService.getNotation(defaultNotation);
         }
-      });  
-    } 
+      })
+      .then(function(){
+        var allKits = [];
+        return SampleService.getKits()
+        .success(function(data) {
+          allKits = data;
+          console.log(allKits);
+        })  
+        .error(function() {
+          alert('GET: error');
+        })
+        .then(function(){
+          var defaultKit = 
+          _.find(allKits, function(kit){
+            return kit.name === 'Rock';
+          });
+        SampleService.getKit(defaultKit);  
+        });  
+      });
+    } // on enter 
   })
   .state('about', {
     url: '/about',
@@ -89,10 +106,10 @@ angular.module('dotBang',
 
   $mdThemingProvider.theme('default')
   .primaryPalette('grey', {
-    'default': '600', 
+    'default': '500', 
     'hue-1': '200', 
-    'hue-2': '800', 
-    'hue-3': '900' 
+    'hue-2': '700', 
+    'hue-3': '800' 
   })
   .accentPalette('deep-orange');
 }]);

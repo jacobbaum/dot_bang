@@ -25,42 +25,62 @@ angular.module('dotBang')
     // $state.go('login');
   });
 
-    var dotSettings = { 'volume': -15 };
-    var bangSettings =  { 'volume': -10 };
-  
-    var drumCount = SampleService.drumCount;
-    var drumNames = SampleService.drumNames;
-    var currentKit = SampleService.currentKit;
+  var seq = this;
 
-    var notation = {};
+  var dotSettings   = { 'volume': -15 };
+  var bangSettings  = { 'volume': -8 };
+  var commaSettings = { 'volume': -20,
+                        'envelope': {
+                          'attack':  0.05,
+                          'decay':   0.3,
+                          'sustain': 0.5,
+                          'release': 0.001
+                        },
+                      };
+  
+    // default sampler amp envelope
+    // {attack: 0.001, decay: 0, sustain: 1, release: 0.1}
+
+    $rootScope.$on('kit loaded', function() {
+      seq.drumCount = SampleService.drumCount;
+      seq.drumNames = SampleService.drumNames;
+      seq.currentKit = SampleService.currentKit;
+      console.log('sequencer has drums');
+      initSamplers();
+    });
+
+    // var notation = {};
 
     $rootScope.$on('notation loaded', function () {
-      console.log('heard about notation')
-      notation = NotationService.notation;
-      console.log(JSON.stringify(notation));
+      seq.notation = NotationService.notation;
+      console.log('sequencer has notation');
+      // console.log(JSON.stringify(notation));
       // return notation;
     });
 
-    // var notation = NotationService.notation;
+    function initSamplers() {
+      seq.dotSampler = new Tone.PolySynth(seq.drumCount, Tone.Sampler, seq.currentKit).toMaster();
+      seq.dotSampler.set(dotSettings);
+
+      seq.bangSampler = new Tone.PolySynth(seq.drumCount, Tone.Sampler, seq.currentKit).toMaster();
+      seq.bangSampler.set(bangSettings);
+
+      seq.commaSampler = new Tone.PolySynth(seq.drumCount, Tone.Sampler, seq.currentKit).toMaster();
+      seq.commaSampler.set(commaSettings);
+    }
 
     var stepNumber = 0;
 
-    // init sampler with drumCount and currentKit 
-    var dotSampler = new Tone.PolySynth(drumCount, Tone.Sampler, currentKit).toMaster();
-    dotSampler.set(dotSettings);
-
-    // init sampler with drumCount and currentKit 
-    var bangSampler = new Tone.PolySynth(drumCount, Tone.Sampler, currentKit).toMaster();
-    bangSampler.set(bangSettings);
-
     Tone.Transport.setInterval(function(time){
-      for (var i = 0; i < drumCount; i++){
-        if (notation.channels[i].notes[stepNumber].value === '.') {
-          dotSampler.triggerAttack(drumNames[i], time);
-        } else if (notation.channels[i].notes[stepNumber].value === '!') {
-          bangSampler.triggerAttack(drumNames[i], time);
+      for (var i = 0; i < seq.drumCount; i++){
+        if (seq.notation.channels[i].notes[stepNumber].value === '.') {
+          seq.dotSampler.triggerAttack(seq.drumNames[i], time);
+        } else if (seq.notation.channels[i].notes[stepNumber].value === '!') {
+          seq.bangSampler.triggerAttack(seq.drumNames[i], time);
+        } else if (seq.notation.channels[i].notes[stepNumber].value === ',') {
+          seq.commaSampler.triggerAttack(seq.drumNames[i], time);
         }
-      }  // need time signature here
+      }
       stepNumber++;
       stepNumber = stepNumber % (8 * Tone.Transport.timeSignature);
     }, '16n');
@@ -68,7 +88,7 @@ angular.module('dotBang')
       // Example setting (for MonoSynth) from Tone Docs
         // {
         //   "volume": -10,
-             //   pitch!
+        //        pitch!
         //   "portamento": 0.05,
         //   "oscillator": {
         //     "type": "square"
