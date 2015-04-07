@@ -97,7 +97,7 @@ angular.module('dotBang')
     $scope.saveAs = function($event){
       $mdDialog.show({
         controller: 'NotationCtrl',
-        templateUrl: '/app/components/notation/dialog.notation.html',
+        templateUrl: '/app/components/notation/dialog-notation.html',
         targetEvent: $event,
         locals: $scope.notation.name,
         // clickOutsideToClose: true  
