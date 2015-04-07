@@ -54,7 +54,7 @@ md-toolbar {
     }
   }
 
-  .small-badge {
+  .smallbadge {
     position: relative;
     top: 0px;
     left: 0px;
@@ -109,7 +109,7 @@ md-toolbar {
     }
   }
 
-#more-tools {
+.more-tools {
   z-index: 0;
 }
 
@@ -179,9 +179,9 @@ md-toolbar {
 
 .transport-label {
   font-size: .7em;
-  font-weight: bold;
+  // font-weight: bold;
   letter-spacing: .05em;
-  font-family: $font-serif;
+  // font-family: $font-sans-serif;
 }
 .subsection {
 
@@ -194,8 +194,9 @@ md-toolbar {
   }
 
   h2 {
-    font-family: $font-serif;
+    // font-family: $font-sans-serif;
     display: inline;
+    font-weight: normal;
   }
 }
 
@@ -254,6 +255,14 @@ md-toolbar {
 
 .auth-form {
   margin-left: 4em;
+}
+
+.about {
+  margin: 0 2em;
+
+  p {
+    line-height: 1em; 
+  }
 }
 
 [layout=row] {

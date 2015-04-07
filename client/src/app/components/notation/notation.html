@@ -27,7 +27,7 @@
     </md-option>
     </md-optgroup>
     <md-optgroup label="Presets">
-      <md-option ng-value="notation" ng-repeat="notation in allNotations | filter: {preset: true }">{{ notation.name }} - bpm: {{ notation.bpm}}, meter: {{notation['time_signature']}}/4
+      <md-option ng-value="notation" ng-repeat="notation in allNotations | filter: {preset: true}">{{ notation.name }} - bpm: {{ notation.bpm}}, meter: {{notation['time_signature']}}/4
     </md-option>
     </md-optgroup>
   </md-select>
@@ -42,7 +42,7 @@
 
   <md-button class="md-raised md-primary md-hue-2" ng-disabled="noUser()" ng-click="saveAs()">Save As</md-button>
 
-  <md-button class="md-raised md-primary md-hue-2" ng-disabled="userNotAuthorized()" ng-click="save()">Save</md-button>
+  <md-button class="md-raised md-primary md-hue-2" ng-disabled="userNotAuthorized" ng-click="save()">Save</md-button>
 
 </div>
 
