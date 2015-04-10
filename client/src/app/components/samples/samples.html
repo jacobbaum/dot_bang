@@ -6,7 +6,11 @@
 
 </div>
 
-<div ng-repeat="name in drumNames" layout="column">
+<div layout="row" layout-sm="column" layout-align="space-around" ng-hide="buffersLoaded">
+  <md-progress-circular md-mode="determinate" value="{{ bufferProgress }}" md-diameter="60"></md-progress-circular>
+</div>
+
+<div ng-repeat="name in drumNames" layout="column" ng-show="buffersLoaded">
   <div class="fixed-height" layout="row" layout-align="end center">
     {{ name }}
   </div>

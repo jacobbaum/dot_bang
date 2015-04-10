@@ -41,15 +41,19 @@ angular.module('dotBang')
     // default sampler amp envelope
     // {attack: 0.001, decay: 0, sustain: 1, release: 0.1}
 
+
     $rootScope.$on('kit loaded', function() {
+      $scope.buffersLoaded = false;
       seq.drumCount = SampleService.drumCount;
       seq.drumNames = SampleService.drumNames;
       seq.currentKit = SampleService.currentKit;
-      console.log('sequencer has drums');
+      console.log(seq.currentKit);
       initSamplers();
+      console.log('sequencer has drums');
     });
 
     // var notation = {};
+
 
     $rootScope.$on('notation loaded', function () {
       seq.notation = NotationService.notation;
@@ -58,16 +62,58 @@ angular.module('dotBang')
       // return notation;
     });
 
+
+
+    // var buffers = buffers();
+
     function initSamplers() {
-      seq.dotSampler = new Tone.PolySynth(seq.drumCount, Tone.Sampler, seq.currentKit).toMaster();
+      // seq.mainSampler = new Tone.PolySynth(seq.drumCount, Tone.Sampler, seq.currentKit);
+
+      // seq.dotSampler = seq.mainSampler.set(dotSettings).toMaster();
+      // seq.bangSampler = seq.mainSampler.set(bangSettings).toMaster();
+      // seq.commaSampler = seq.mainSampler.set(commaSettings).toMaster();
+
+      // seq.dotSampler = new Tone.PolySynth(seq.drumCount, Tone.Sampler, seq.currentKit).toMaster();
+      // seq.dotSampler.set(dotSettings);
+
+      // seq.bangSampler = new Tone.PolySynth(seq.drumCount, Tone.Sampler, seq.currentKit).toMaster();
+      // seq.bangSampler.set(bangSettings);
+
+      // seq.commaSampler = new Tone.PolySynth(seq.drumCount, Tone.Sampler, seq.currentKit).toMaster();
+      // seq.commaSampler.set(commaSettings);
+
+      
+
+      seq.dotSampler = new Tone.Sampler(seq.currentKit).toMaster();
       seq.dotSampler.set(dotSettings);
 
-      seq.bangSampler = new Tone.PolySynth(seq.drumCount, Tone.Sampler, seq.currentKit).toMaster();
+      seq.bangSampler = new Tone.Sampler(seq.currentKit).toMaster();
       seq.bangSampler.set(bangSettings);
 
-      seq.commaSampler = new Tone.PolySynth(seq.drumCount, Tone.Sampler, seq.currentKit).toMaster();
+      seq.commaSampler = new Tone.Sampler(seq.currentKit).toMaster();
       seq.commaSampler.set(commaSettings);
+
+      Tone.Buffer.onprogress = function(percent){
+        $scope.$apply(function(){
+          $scope.bufferProgress = (percent * 100).toFixed(0);
+        });
+        console.log($scope.bufferProgress);
+      };
+
+      Tone.Buffer.onload = function(){
+        $scope.$apply(function(){
+          $scope.buffersLoaded = true;
+        });
+        console.log('everything is loaded');        
+      };
     }
+
+
+    // Tone.Transport.setInterval(function(){
+    //   $scope.$apply(function() {
+    //     $scope.position = Tone.Transport.position;
+    //   });
+    // }, '16n'); 
 
     var stepNumber = 0;
 

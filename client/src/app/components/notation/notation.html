@@ -23,7 +23,7 @@
 
   <md-select class="load-menu" ng-model="notation" placeholder="Load a Beat" ng-change="getNotation(notation)">
     <md-optgroup label="My Beats">
-      <md-option ng-value="notation" ng-repeat="notation in allNotations | userNotation:user">{{ notation.name }} - bpm: {{ notation.bpm }}, meter: {{notation['time_signature']}}/4
+      <md-option ng-value="notation" ng-repeat="notation in allNotations | filter: {'user_id': user.id }">{{ notation.name }} - bpm: {{ notation.bpm }}, meter: {{notation['time_signature']}}/4
     </md-option>
     </md-optgroup>
     <md-optgroup label="Presets">
@@ -42,7 +42,7 @@
 
   <md-button class="md-raised md-primary md-hue-2" ng-disabled="noUser()" ng-click="saveAs()">Save As</md-button>
 
-  <md-button class="md-raised md-primary md-hue-2" ng-disabled="userNotAuthorized" ng-click="save()">Save</md-button>
+  <md-button class="md-raised md-primary md-hue-2" ng-disabled="userNotAuthorized()" ng-click="save()">Save</md-button>
 
 </div>
 

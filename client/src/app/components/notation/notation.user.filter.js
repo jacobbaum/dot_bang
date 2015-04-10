@@ -3,11 +3,11 @@
 angular.module('dotBang')
 .filter('userNotation', ['AuthService', function(AuthService) {
   return function(notations, user) {
-    if (!AuthService.isAuthenticated) {
+    // if (AuthService.isAuthenticated) {
       _.filter(notations, function(notation){
         return notation['user_id'] === user.id;
       });
-    } 
+    // } 
   };
 }]);
 

@@ -28,7 +28,7 @@ angular.module('dotBang')
         drumCount(kitData);
         drumNames(kitData);
         convertForTone(kitData);
-        mergeForTone(sampServ.forMerge);
+        sampServ.currentKit = mergeForTone(sampServ.forMerge);
         sampServ.kitName = kitData.name;
         console.log(JSON.stringify(sampServ.currentKit));
       })
@@ -64,10 +64,11 @@ angular.module('dotBang')
 
     // merging array of objects into single object for Tone
     function mergeForTone(forMerge){
-      sampServ.currentKit = {};
+      var toneKit = {};
       _.forEach(forMerge, function(strippedSound){
-        _.merge(sampServ.currentKit, strippedSound);
+        _.merge(toneKit, strippedSound);
       });
+      return toneKit;
     }
 
     // sampServ.currentKit = kitForTone;

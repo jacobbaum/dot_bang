@@ -180,13 +180,17 @@ angular.module('dotBang')
     //   } 
     // };
 
-    $scope.userNotAuthorized =
-    $rootScope.$on('notation loaded', function () {
-      if (AuthService.isAuthenticated()) {
-        return ($scope.user.id !== $scope.notation['user_id']);
-      }       
-    });
+    $scope.userNotAuthorized = function(){
+      if (!!$scope.user) {
+        return !($scope.user.id === $scope.notation['user_id']);  
+      } else {
+        return true;
+      }
+    }
 
+    // $rootScope.$on('notation loaded', function () {
+    //   $scope.userNotAuthorized = userNotAuthorized;
+    // });
 
     $scope.noUser = function(){
       return !(AuthService.isAuthenticated());
