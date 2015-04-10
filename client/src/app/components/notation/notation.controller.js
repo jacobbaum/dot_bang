@@ -95,9 +95,12 @@ angular.module('dotBang')
     }
 
     $scope.saveAs = function($event){
+      // var parentEl = angular.element(document.body);
       $mdDialog.show({
+        // parent: parentEl,
         controller: 'NotationCtrl',
-        templateUrl: '/app/components/notation/dialog-notation.html',
+        // templateUrl: '/app/components/notation/savedialog.html',   // 404/Not found after gulp build/deployment
+        template: '<md-dialog aria-label="Save Beat As"><md-content class="sticky-container"><md-input-container><label>Name</label><input ng-model="notation.name"></md-input-container></md-content><div class="md-actions" layout="row"><span flex></span><md-button ng-click="cancelSave()">Cancel</md-button><md-button ng-click="confirmSave()" class="md-primary">Save</md-button></div></md-dialog>',
         targetEvent: $event,
         locals: $scope.notation.name,
         // clickOutsideToClose: true  
@@ -186,7 +189,7 @@ angular.module('dotBang')
       } else {
         return true;
       }
-    }
+    };
 
     // $rootScope.$on('notation loaded', function () {
     //   $scope.userNotAuthorized = userNotAuthorized;
@@ -194,7 +197,7 @@ angular.module('dotBang')
 
     $scope.noUser = function(){
       return !(AuthService.isAuthenticated());
-    }
+    };
      
 
 
